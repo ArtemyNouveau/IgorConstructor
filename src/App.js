@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
 
+import Constructor from "./Containers/Constructor/Constructors";
 import Layout from "./Containers/Layout/Layout";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,7 +13,7 @@ function App() {
             <Layout>
                 <Switch>
                     <Route path="/articles" />
-                    <Route path="/" />
+                    <Route path="/" component={Constructor}/>
                 </Switch>
             </Layout>
         </BrowserRouter>

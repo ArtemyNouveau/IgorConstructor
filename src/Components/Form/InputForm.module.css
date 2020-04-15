@@ -1,0 +1,11 @@
+.InputContainer {
+    position: relative;
+    border-radius: .25rem;
+    border: 1px solid rgba(0,0,0,0);
+    padding: .25rem;
+    margin: .25rem
+}
+
+.InputContainer:hover {
+    border-color: #ced4da;
+}

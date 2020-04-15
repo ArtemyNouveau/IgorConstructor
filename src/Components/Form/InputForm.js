@@ -326,8 +326,11 @@ class InputForm extends Component {
                     <Button variant="success"
                             type="submit"
                             size="sm"
-                            onClick={console.log(this.state.fieldset)}>
-                        Submit
+                            onClick={(event) => {
+                                event.preventDefault()
+                                this.props.save(this.state.fieldset)
+                            }}>
+                        Save
                     </Button>
                 </Form.Group>
             </Form>
@@ -337,7 +340,8 @@ class InputForm extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setFields: (fields) => dispatch(constructorActions.setFields(fields))
+        setFields: (fields) => dispatch(constructorActions.setFields(fields)),
+        save: (fields) => dispatch(constructorActions.saveFields(fields))
     }
 };
 

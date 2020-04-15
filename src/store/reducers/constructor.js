@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/ActionTypes'
 import {updateObject} from "../Utility";
 
 const initialState = {
-    fields: []
+    fields: [],
+    loading: false
 }
 
 const constructor = (state = initialState, action) => {

@@ -28,9 +28,9 @@ export const saveFail = (error) => {
     }
 }
 
-export const saveFields = (fieldset) => {
+export const saveFields = (fieldset, articleHeader) => {
     return dispatch => {
-        axiosInstance.post('/articles.json', fieldset)
+        axiosInstance.post('/articles.json', {fields: fieldset, header: articleHeader})
             .then((response) => {
                 console.log(response.data)
                 dispatch(saveSuccess(response.data))

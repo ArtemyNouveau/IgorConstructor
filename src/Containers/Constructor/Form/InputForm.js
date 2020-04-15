@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux'
-import * as constructorActions from '../../store/actions/constructor'
+import * as constructorActions from '../../../store/actions/constructor'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
-import RemoveButton from "../UI/RemoveButton/RemoveButton";
+import RemoveButton from "../../../Components/UI/RemoveButton/RemoveButton";
 
-import * as inputType from '../../inputTypes'
+import * as inputType from '../../../inputTypes'
 
 import styles from './InputForm.module.css';
 
@@ -328,7 +328,7 @@ class InputForm extends Component {
                             size="sm"
                             onClick={(event) => {
                                 event.preventDefault()
-                                this.props.save(this.state.fieldset)
+                                this.props.save(this.state.fieldset, this.state.fieldset[0])
                             }}>
                         Save
                     </Button>
@@ -341,7 +341,7 @@ class InputForm extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
-        save: (fields) => dispatch(constructorActions.saveFields(fields))
+        save: (fields, articleHeader) => dispatch(constructorActions.saveFields(fields, articleHeader))
     }
 };
 

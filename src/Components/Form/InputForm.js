@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-
+import {connect} from 'react-redux'
+import * as constructorActions from '../../store/actions/constructor'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
 
@@ -8,7 +9,9 @@ import styles from './InputForm.module.css';
 const inputType = {
     text: 'text',
     link: 'link',
-    image: 'img'
+    image: 'img',
+    gap: 'gap',
+    header: 'header'
 }
 
 class InputForm extends Component {
@@ -31,6 +34,22 @@ class InputForm extends Component {
         }
 
         this.setState({fieldset: fields})
+
+        this.props.setFields(this.state.fieldset)
+    }
+
+    onHeaderChange = (event, key) => {
+        key = Number(key)
+        let fields = JSON.parse(JSON.stringify(this.state.fieldset));
+
+        fields[key] = {
+            inputType: inputType.header,
+            text: event.target.value
+        }
+
+        this.setState({fieldset: fields})
+
+        this.props.setFields(this.state.fieldset)
     }
 
     onLinkTextChange = (event, key) => {
@@ -65,38 +84,66 @@ class InputForm extends Component {
         this.setState({fieldset: fields})
     }
 
-    onAddImage = () => {
+    deleteEmptyField = () => {
         let fields = JSON.parse(JSON.stringify(this.state.fieldset));
         if (
             fields.length > 0 &&
-            fields[fields.length - 1].inputType === inputType.text &&
-            fields[fields.length - 1].text === ''
+            (
+                fields[fields.length - 1].inputType === inputType.text ||
+                fields[fields.length - 1].inputType === inputType.header ||
+                fields[fields.length - 1].inputType === inputType.link
+            ) &&
+            fields[fields.length - 1].text === '' ||
+            fields[fields.length - 1].inputType === inputType.image &&
+            fields[fields.length - 1].img === ''
         ) fields.pop()
+        return fields
+    }
+
+    onAddImage = () => {
+        const fields = this.deleteEmptyField()
 
         fields.push({
             inputType: inputType.image,
             img: '',
         })
-        fields.push({
-            inputType: inputType.text,
-            text: ''
-        })
         this.setState({fieldset: fields})
     }
 
     onAddLink = () => {
-        let fields = JSON.parse(JSON.stringify(this.state.fieldset));
-        if (
-            fields.length > 0 &&
-            fields[fields.length - 1].inputType === inputType.text &&
-            fields[fields.length - 1].text === ''
-        ) fields.pop()
+        const fields = this.deleteEmptyField()
 
         fields.push({
             inputType: inputType.link,
             text: '',
             url: ''
         })
+        this.setState({fieldset: fields})
+    }
+
+    onAddGap = () => {
+        if (this.state.length < 1) return
+        const fields = this.deleteEmptyField()
+
+        fields.push({
+            inputType: inputType.gap,
+        })
+        this.setState({fieldset: fields})
+    }
+
+    onAddHeader = () => {
+        const fields = this.deleteEmptyField()
+
+        fields.push({
+            inputType: inputType.header,
+            text: ''
+        })
+        this.setState({fieldset: fields})
+    }
+
+    onAddText = () => {
+        const fields = this.deleteEmptyField()
+
         fields.push({
             inputType: inputType.text,
             text: ''
@@ -180,21 +227,48 @@ class InputForm extends Component {
                 case inputType.image:
                     return (
                         <div className={styles.InputContainer}>
-                            <Form.File
-                                id={index}
-                                label="image input"
-                                custom
-                                onChange={(event) => {
-                                    console.log(event.target.value)
-                                    this.onImageChange(event, index)
-                                }}
-                            />
+                            <Form.Group controlId={index}>
+                                <Form.Label>Image</Form.Label>
+                                <Form.File
+                                    id={index}
+                                    label="image input"
+                                    custom
+                                    onChange={(event) => {
+                                        console.log(event.target.value)
+                                        this.onImageChange(event, index)
+                                    }}
+                                />
+                            </Form.Group>
                             <RemoveButton onClick={() => this.onRemove(index)}/>
                         </div>
                     )
+                case inputType.header:
+                    return (
+                        <div className={styles.InputContainer}>
+                            <Form.Group controlId={index}>
+                                <Form.Label>text</Form.Label>
+                                <Form.Control type="text"
+                                              onChange={(event) => {
+                                                  console.log(event.target.value)
+                                                  this.onHeaderChange(event, index)
+                                              }}
+                                              placeholder="Header"/>
+                                <RemoveButton onClick={() => this.onRemove(index)}/>
+                            </Form.Group>
+                        </div>
+                    )
+                case inputType.gap :
+                    return <div className={styles.InputContainer}
+                                style={{
+                                    // border: '1px solid #ced4da',
+                                    padding: '16px',
+                                    marginBottom: '16px'
+                                }}>
+                        <RemoveButton onClick={() => this.onRemove(index)}/>
+                    </div>
                 default:
                     return (
-                        <div>
+                        <div className={styles.InputContainer}>
                             <Form.Group controlId={index}>
                                 <Form.Label>text</Form.Label>
                                 <Form.Control as="textarea"
@@ -215,15 +289,22 @@ class InputForm extends Component {
         return (
             <Form>
                 {input}
-                <Form.Group controlId="switchers">
-                    <ButtonGroup className="mr-auto">
-                        <Button onClick={this.onAddLink}>Add Link</Button>
-                        <Button onClick={this.onAddImage}>Add Image</Button>
+                <Form.Group style={{
+                    display: 'flex',
+                    alignItems: 'space-between',
+                    flexWrap: 'wrap'
+                }} controlId="switchers">
+                    <ButtonGroup className="mr-auto" size="sm">
+                        <Button onClick={this.onAddText}>Text</Button>
+                        <Button onClick={this.onAddLink}>Link</Button>
+                        <Button onClick={this.onAddImage}>Image</Button>
+                        <Button onClick={this.onAddHeader}>Header</Button>
+                        <Button onClick={this.onAddGap}>Paragraph</Button>
                     </ButtonGroup>
 
-                    <Button style={{float: 'right'}}
-                            variant="primary"
+                    <Button variant="success"
                             type="submit"
+                            size="sm"
                             onClick={console.log(this.state.fieldset)}>
                         Submit
                     </Button>
@@ -233,4 +314,16 @@ class InputForm extends Component {
     }
 }
 
-export default InputForm
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setFields: (fields) => dispatch(constructorActions.setFields(fields))
+    }
+};
+
+const mapStateToProps = (state) => {
+    return {
+        fieldset: state.constructor.fields
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputForm)

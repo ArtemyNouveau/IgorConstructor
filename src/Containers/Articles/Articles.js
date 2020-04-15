@@ -22,26 +22,30 @@ class Articles extends Component {
             <div>
                 <Accordion>
                     {
-                        articles.map((article, index) => {
-                            return (
-                                <Card key={index}>
-                                    <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                                            {article.header.text}
-                                        </Accordion.Toggle>
-                                        <Button onClick={(event) => {
-                                            event.preventDefault();
-                                            this.props.setFields(article.fields)
-                                        }}>edit</Button>
-                                    </Card.Header>
-                                    <Accordion.Collapse eventKey={index}>
-                                        <Card.Body>
-                                            <Article fieldset={article.fields}/>
-                                        </Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>
-                            )
-                        })
+                        !this.props.loading ?
+                            articles.map((article, index) => {
+                                return (
+                                    <Card key={index}>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                                                {article.header.text}
+                                            </Accordion.Toggle>
+                                            <Button onClick={(event) => {
+                                                event.preventDefault();
+                                                this.props.setFields(article.fields)
+                                            }}>edit</Button>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey={index}>
+                                            <Card.Body>
+                                                <Article fieldset={article.fields}/>
+                                            </Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                                )
+                            }) :
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner>
                     }
                 </Accordion>
             </div>

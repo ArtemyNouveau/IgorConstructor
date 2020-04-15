@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Constructor from "./Containers/Constructor/Constructors";
 import Articles from "./Containers/Articles/Articles";
@@ -8,8 +8,7 @@ import Layout from "./Containers/Layout/Layout";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  return (
-    <div>
+    return (
         <BrowserRouter>
             <Layout>
                 <Switch>
@@ -18,8 +17,7 @@ function App() {
                 </Switch>
             </Layout>
         </BrowserRouter>
-    </div>
-  );
+    );
 }
 
 export default App;

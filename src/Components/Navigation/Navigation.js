@@ -1,4 +1,6 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
+
 import {Navbar, Nav, Container} from "react-bootstrap";
 
 const navigation = (props) => {
@@ -10,12 +12,12 @@ const navigation = (props) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto"/>
                     <Nav>
-                        <Nav.Link exact>
-                            Constructor
-                        </Nav.Link>
-                        <Nav.Link exact>
-                            Dank memes
-                        </Nav.Link>
+                        <NavLink className="nav-link" exact to="/articles">
+                            Articles list
+                        </NavLink>
+                        <NavLink className="nav-link" exact to="/">
+                                Constructor
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -4,15 +4,9 @@ import * as constructorActions from '../../store/actions/constructor'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
 
-import styles from './InputForm.module.css';
+import * as inputType from '../../inputTypes'
 
-const inputType = {
-    text: 'text',
-    link: 'link',
-    image: 'img',
-    gap: 'gap',
-    header: 'header'
-}
+import styles from './InputForm.module.css';
 
 class InputForm extends Component {
     state = {
@@ -35,7 +29,7 @@ class InputForm extends Component {
 
         this.setState({fieldset: fields})
 
-        this.props.setFields(this.state.fieldset)
+        this.props.setFields(fields)
     }
 
     onHeaderChange = (event, key) => {
@@ -48,8 +42,7 @@ class InputForm extends Component {
         }
 
         this.setState({fieldset: fields})
-
-        this.props.setFields(this.state.fieldset)
+        this.props.setFields(fields)
     }
 
     onLinkTextChange = (event, key) => {
@@ -60,7 +53,8 @@ class InputForm extends Component {
             url: this.state.fieldset[key].url
         }
 
-        this.setState(fields)
+        this.setState({fieldset: fields})
+        this.props.setFields(fields)
     }
 
     onLinkUrlChange = (event, key) => {
@@ -71,7 +65,8 @@ class InputForm extends Component {
             text: this.state.fieldset[key].text
         }
 
-        this.setState(fields)
+        this.setState({fieldset: fields})
+        this.props.setFields(fields)
     }
 
     onImageChange = (event, key) => {
@@ -82,6 +77,7 @@ class InputForm extends Component {
         }
 
         this.setState({fieldset: fields})
+        this.props.setFields(fields)
     }
 
     deleteEmptyField = () => {
@@ -122,8 +118,8 @@ class InputForm extends Component {
     }
 
     onAddGap = () => {
-        if (this.state.length < 1) return
         const fields = this.deleteEmptyField()
+        if (fields.length < 1) return
 
         fields.push({
             inputType: inputType.gap,

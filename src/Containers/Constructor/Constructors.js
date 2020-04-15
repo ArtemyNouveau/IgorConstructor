@@ -1,12 +1,10 @@
 import React, {Component, Fragment} from "react";
 import {Col, Container, Row} from "react-bootstrap";
+import Article from "../../Components/Article/Article";
 
 import InputForm from "../../Components/Form/InputForm";
 
 class Constructor extends Component {
-    state = {
-        paragraphs: []
-    }
 
     render() {
         return (
@@ -14,9 +12,9 @@ class Constructor extends Component {
                 <Col>
                     <InputForm/>
                 </Col>
-                {/*<Col>*/}
-                {/*    Preview*/}
-                {/*</Col>*/}
+                <Col>
+                    <Article/>
+                </Col>
             </Row>
         );
     }

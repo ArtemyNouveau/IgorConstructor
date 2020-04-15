@@ -1,0 +1,5 @@
+export const text = 'text'
+export const link = 'link'
+export const image = 'img'
+export const gap = 'gap'
+export const header = 'header'

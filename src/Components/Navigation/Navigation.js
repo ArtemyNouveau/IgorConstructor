@@ -10,12 +10,10 @@ const navigation = (props) => {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto"/>
                     <Nav>
-                        <Nav.Link exact
-                                  href="#constructor">
-                            More deets
+                        <Nav.Link exact>
+                            Constructor
                         </Nav.Link>
-                        <Nav.Link exact
-                                  href="#articles">
+                        <Nav.Link exact>
                             Dank memes
                         </Nav.Link>
                     </Nav>

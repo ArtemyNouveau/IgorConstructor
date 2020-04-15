@@ -12,14 +12,13 @@ class InputForm extends Component {
     state = {
         fieldset: [
             {
-                inputType: inputType.text,
+                inputType: inputType.mainHeader,
                 text: ''
             }
         ]
     }
 
     onTextChange = (event, key) => {
-        key = Number(key)
         let fields = JSON.parse(JSON.stringify(this.state.fieldset));
 
         fields[key] = {
@@ -33,11 +32,22 @@ class InputForm extends Component {
     }
 
     onHeaderChange = (event, key) => {
-        key = Number(key)
         let fields = JSON.parse(JSON.stringify(this.state.fieldset));
 
         fields[key] = {
             inputType: inputType.header,
+            text: event.target.value
+        }
+
+        this.setState({fieldset: fields})
+        this.props.setFields(fields)
+    }
+
+    onMainHeaderChange = (event, index) => {
+        let fields = JSON.parse(JSON.stringify(this.state.fieldset));
+
+        fields[index] = {
+            inputType: inputType.mainHeader,
             text: event.target.value
         }
 
@@ -125,6 +135,7 @@ class InputForm extends Component {
             inputType: inputType.gap,
         })
         this.setState({fieldset: fields})
+        this.props.setFields(fields)
     }
 
     onAddHeader = () => {
@@ -153,6 +164,7 @@ class InputForm extends Component {
         fields.splice(key, 1)
 
         this.setState({fieldset: fields})
+        this.props.setFields(fields)
     }
 
     render() {
@@ -177,7 +189,7 @@ class InputForm extends Component {
             switch (field.inputType) {
                 case inputType.text:
                     return (
-                        <div className={styles.InputContainer}>
+                        <div key={index} className={styles.InputContainer}>
                             <Form.Group controlId={index}>
                                 <Form.Label>text</Form.Label>
                                 <Form.Control as="textarea"
@@ -194,7 +206,7 @@ class InputForm extends Component {
                     )
                 case inputType.link:
                     return (
-                        <div className={styles.InputContainer}>
+                        <div key={index} className={styles.InputContainer}>
                             <Row>
                                 <Col>
                                     <Form.Group controlId={index + 'text'}>
@@ -222,7 +234,7 @@ class InputForm extends Component {
                     )
                 case inputType.image:
                     return (
-                        <div className={styles.InputContainer}>
+                        <div key={index} className={styles.InputContainer}>
                             <Form.Group controlId={index}>
                                 <Form.Label>Image</Form.Label>
                                 <Form.File
@@ -240,7 +252,7 @@ class InputForm extends Component {
                     )
                 case inputType.header:
                     return (
-                        <div className={styles.InputContainer}>
+                        <div key={index} className={styles.InputContainer}>
                             <Form.Group controlId={index}>
                                 <Form.Label>text</Form.Label>
                                 <Form.Control type="text"
@@ -253,8 +265,21 @@ class InputForm extends Component {
                             </Form.Group>
                         </div>
                     )
+                case inputType.mainHeader:
+                    return (
+                        <div key={index} className={styles.InputContainer}>
+                            <Form.Group controlId={index}>
+                                <Form.Label>Main header</Form.Label>
+                                <Form.Control type="text"
+                                              onChange={(event) => {
+                                                  this.onMainHeaderChange(event, index)
+                                              }}
+                                              placeholder="Header"/>
+                            </Form.Group>
+                        </div>
+                    )
                 case inputType.gap :
-                    return <div className={styles.InputContainer}
+                    return <div key={index} className={styles.InputContainer}
                                 style={{
                                     // border: '1px solid #ced4da',
                                     padding: '16px',
@@ -264,7 +289,7 @@ class InputForm extends Component {
                     </div>
                 default:
                     return (
-                        <div className={styles.InputContainer}>
+                        <div key={index} className={styles.InputContainer}>
                             <Form.Group controlId={index}>
                                 <Form.Label>text</Form.Label>
                                 <Form.Control as="textarea"

@@ -11,8 +11,13 @@ class Constructor extends Component {
             <Row>
                 <Col>
                     <InputForm/>
+                    <div className="d-block d-lg-none d-xl-none">
+                        <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
+                        <Article/>
+                    </div>
                 </Col>
-                <Col>
+                <Col className="d-none d-lg-block d-xl-block">
+                    <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
                     <Article/>
                 </Col>
             </Row>

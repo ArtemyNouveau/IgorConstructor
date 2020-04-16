@@ -14,7 +14,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     articles: articles,
-    constructor: constructor,
+    construct: constructor,
 });
 
 const initialState = {

@@ -5,7 +5,6 @@ import * as constructorActions from '../../store/actions/constructor'
 
 import Article from "../../Components/Article/Article";
 import {Accordion, Card, Button, Spinner} from "react-bootstrap";
-import articles from "../../store/reducers/articles";
 
 class Articles extends Component {
     componentDidMount() {

@@ -131,6 +131,19 @@ const inputForm = (props) => {
         props.setFields(fields)
     }
 
+    const updateArticle = () => {
+        props.update(props.fieldset, props.fieldset[0], props.id)
+        props.history.push({
+            pathname: "/articles",
+        })
+    }
+
+    const saveArticle = () => {
+        props.save(props.fieldset, props.fieldset[0])
+        props.history.push({
+            pathname: "/articles",
+        })
+    }
 
     let input;
     if (!!!props.fieldset)
@@ -302,7 +315,7 @@ const inputForm = (props) => {
                             size="sm"
                             onClick={(event) => {
                                 event.preventDefault()
-                                props.update(props.fieldset, props.fieldset[0], props.id)
+                                updateArticle()
                             }}>
                         update
                     </Button> :
@@ -311,7 +324,7 @@ const inputForm = (props) => {
                             size="sm"
                             onClick={(event) => {
                                 event.preventDefault()
-                                props.save(props.fieldset, props.fieldset[0])
+                                saveArticle()
                             }}>
                         Save
                     </Button>
@@ -329,4 +342,11 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(inputForm)
+const mapStateToProps = (state) => {
+    return {
+        fieldset: state.construct.fields,
+        id: state.construct.id
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(inputForm)

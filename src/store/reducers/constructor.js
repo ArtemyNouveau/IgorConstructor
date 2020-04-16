@@ -1,8 +1,14 @@
 import * as actionTypes from '../actions/ActionTypes'
 import {updateObject} from "../Utility";
+import * as inputType from "../../inputTypes";
 
 const initialState = {
-    fields: [],
+    fields: [
+        {
+            inputType: inputType.mainHeader,
+            text: ''
+        }
+    ],
     loading: false,
     id: null
 }

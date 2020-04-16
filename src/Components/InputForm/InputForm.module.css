@@ -9,3 +9,9 @@
 .InputContainer:hover {
     border-color: #ced4da;
 }
+
+.ButtonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: space-between;
+}

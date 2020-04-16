@@ -1,4 +1,3 @@
-import * as actiontypes from '../actions/ActionTypes'
 import * as actionTypes from "../actions/ActionTypes";
 import {updateObject} from "../Utility";
 

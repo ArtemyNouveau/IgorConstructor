@@ -1,0 +1,7 @@
+.Text, .Link {
+    display: inline !important;
+}
+
+.Image {
+    width: 100%;
+}

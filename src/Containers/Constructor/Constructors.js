@@ -3,15 +3,26 @@ import {connect} from "react-redux";
 import {Col, Container, Row} from "react-bootstrap";
 import Article from "../../Components/Article/Article";
 
-import InputForm from "./Form/InputForm";
+import InputForm from "../../Components/InputForm/InputForm";
+import * as constructorActions from "../../store/actions/constructor";
+import * as inputType from "../../inputTypes";
 
 class Constructor extends Component {
+    componentDidMount() {
+        if (!!!this.props.fieldset)
+            this.props.setFields([
+                {
+                    inputType: inputType.mainHeader,
+                    text: ''
+                }
+            ])
+    }
 
     render() {
         return (
             <Row>
                 <Col>
-                    <InputForm/>
+                    <InputForm fieldset={this.props.fieldset}/>
                     <div className="d-block d-lg-none d-xl-none">
                         <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
                         <Article fieldset={this.props.fieldset}/>
@@ -25,10 +36,17 @@ class Constructor extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setFields: (fields) => dispatch(constructorActions.setFields(fields)),
+    }
+};
+
 const mapStateToProps = (state) => {
     return {
         fieldset: state.constructor.fields
     };
 };
 
-export default connect(mapStateToProps)(Constructor)
+export default connect(mapStateToProps, mapDispatchToProps)(Constructor)

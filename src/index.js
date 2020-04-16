@@ -8,13 +8,26 @@ import articles from "./store/reducers/articles";
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import * as inputType from "./inputTypes";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
+    articles: articles,
     constructor: constructor,
-    articles: articles
 });
+
+const initialState = {
+    constructor: {
+        fields: [
+            {
+                inputType: inputType.mainHeader,
+                text: ''
+            }
+        ],
+        loading: false
+    }
+};
 
 const store = createStore(
     rootReducer,

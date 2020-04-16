@@ -22,7 +22,7 @@ class Constructor extends Component {
         return (
             <Row>
                 <Col>
-                    <InputForm fieldset={this.props.fieldset}/>
+                    <InputForm fieldset={this.props.fieldset} id={this.props.id}/>
                     <div className="d-block d-lg-none d-xl-none">
                         <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
                         <Article fieldset={this.props.fieldset}/>
@@ -45,7 +45,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        fieldset: state.constructor.fields
+        fieldset: state.constructor.fields,
+        id: state.constructor.id
     };
 };
 

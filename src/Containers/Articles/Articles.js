@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import * as articlesActions from '../../store/actions/articles'
-import {setFields} from '../../store/actions/constructor'
+import * as constructorActions from '../../store/actions/constructor'
 
 import Article from "../../Components/Article/Article";
 import {Accordion, Card, Button, Spinner} from "react-bootstrap";
@@ -12,8 +12,9 @@ class Articles extends Component {
         this.props.fetch();
     }
 
-    editHandler = (fields) => {
-        this.props.setFields(fields)
+    editHandler = (fields, id) => {
+        this.props.setFields(fields);
+        this.props.setId(id);
         this.props.history.push({
             pathname: "/",
         })
@@ -25,6 +26,8 @@ class Articles extends Component {
                 this.props.articles[key]
             )
         })
+        const IDs = Object.keys(this.props.articles);
+
         return (
             <div>
                 <Accordion>
@@ -39,7 +42,7 @@ class Articles extends Component {
                                             </Accordion.Toggle>
                                             <Button onClick={(event) => {
                                                 event.preventDefault();
-                                                this.editHandler(article.fields)
+                                                this.editHandler(article.fields, IDs[index])
                                             }}>edit</Button>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey={index}>
@@ -63,7 +66,8 @@ class Articles extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetch: () => dispatch(articlesActions.fetch()),
-        setFields: (fields) => dispatch(setFields(fields))
+        setFields: (fields) => dispatch(constructorActions.setFields(fields)),
+        setId: (id) => dispatch(constructorActions.setId(id))
     }
 }
 

@@ -3,7 +3,8 @@ import {updateObject} from "../Utility";
 
 const initialState = {
     fields: [],
-    loading: false
+    loading: false,
+    id: null
 }
 
 const constructor = (state = initialState, action) => {
@@ -12,6 +13,8 @@ const constructor = (state = initialState, action) => {
             return updateObject(state, {fields: action.fieldset})
         case actionTypes.ADD_FIELD:
             return updateObject(state, {fields: state.fields.concat(action.field)})
+        case actionTypes.SET_ID:
+            return updateObject(state, {id: action.id})
         default:
             return state
     }

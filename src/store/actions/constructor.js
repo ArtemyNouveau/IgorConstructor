@@ -41,3 +41,24 @@ export const saveFields = (fieldset, articleHeader) => {
             })
     }
 }
+
+export const setId = (id) => {
+    return {
+        type: actionTypes.SET_ID,
+        id: id
+    }
+}
+
+export const updateFields = (fieldset, articleHeader, id) => {
+    return dispatch => {
+        axiosInstance.put(`/articles/${id}.json`, {fields: fieldset, header: articleHeader})
+            .then((response) => {
+                console.log(response.data)
+                dispatch(saveSuccess(response.data))
+            })
+            .catch((err) => {
+                console.log(err)
+                dispatch(saveFail(err))
+            })
+    }
+}

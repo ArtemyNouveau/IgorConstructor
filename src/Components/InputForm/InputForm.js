@@ -9,13 +9,6 @@ import * as inputType from '../../inputTypes'
 import styles from './InputForm.module.css';
 
 const inputForm = (props) => {
-    // props.setFields([
-    //     {
-    //         inputType: inputType.mainHeader,
-    //         text: ''
-    //     }
-    // ])
-
     const onInputChange = (event, key, isURL = false) => {
         let fields = JSON.parse(JSON.stringify(props.fieldset));
 
@@ -77,7 +70,10 @@ const inputForm = (props) => {
                 fields[fields.length - 1].inputType === inputType.header ||
                 fields[fields.length - 1].inputType === inputType.link
             ) &&
-            fields[fields.length - 1].text === '' ||
+            fields[fields.length - 1].text === ''
+
+        ) fields.pop()
+        else if (
             fields[fields.length - 1].inputType === inputType.image &&
             fields[fields.length - 1].img === ''
         ) fields.pop()
@@ -300,15 +296,26 @@ const inputForm = (props) => {
                     </Button>
                 </ButtonGroup>
 
-                <Button variant="success"
-                        type="submit"
-                        size="sm"
-                        onClick={(event) => {
-                            event.preventDefault()
-                            props.save(props.fieldset, props.fieldset[0])
-                        }}>
-                    Save
-                </Button>
+                {props.id ?
+                    <Button variant="success"
+                            type="submit"
+                            size="sm"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                props.update(props.fieldset, props.fieldset[0], props.id)
+                            }}>
+                        update
+                    </Button> :
+                    <Button variant="success"
+                            type="submit"
+                            size="sm"
+                            onClick={(event) => {
+                                event.preventDefault()
+                                props.save(props.fieldset, props.fieldset[0])
+                            }}>
+                        Save
+                    </Button>
+                }
             </Form.Group>
         </Form>
     )
@@ -317,14 +324,9 @@ const inputForm = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
-        save: (fields, articleHeader) => dispatch(constructorActions.saveFields(fields, articleHeader))
+        save: (fields, articleHeader) => dispatch(constructorActions.saveFields(fields, articleHeader)),
+        update: (fields, articleHeader, id) => dispatch(constructorActions.updateFields(fields, articleHeader, id))
     }
 };
-
-// const mapStateToProps = (state) => {
-//     return {
-//         fieldset: state.constructor.fields
-//     };
-// };
 
 export default connect(null, mapDispatchToProps)(inputForm)

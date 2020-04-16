@@ -4,7 +4,6 @@ import * as inputType from "../../inputTypes";
 import styles from './Article.module.css'
 
 const article = (props) => {
-    console.log(props.fieldset)
     if (!!!props.fieldset) return (<div/>)
     return (
         <div>

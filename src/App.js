@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-import Constructor from "./Containers/Constructor/Constructors";
-import Articles from "./Containers/Articles/Articles";
+import Constructor from "./Pages/Constructors";
+import Articles from "./Pages/Articles/Articles";
 import Layout from "./Containers/Layout/Layout";
 
 import 'bootstrap/dist/css/bootstrap.min.css';

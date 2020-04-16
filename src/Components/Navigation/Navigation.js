@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {connect} from 'react-redux'
 
 import {Navbar, Nav, Container} from "react-bootstrap";
-import * as constructorActions from "../../store/actions/constructor";
+import * as constructorActions from "../../store/constructor/actions";
 
 const navigation = (props) => {
     return (

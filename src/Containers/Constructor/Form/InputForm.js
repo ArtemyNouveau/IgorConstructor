@@ -18,6 +18,11 @@ class InputForm extends Component {
         ]
     }
 
+    componentDidMount() {
+        if (this.props.fieldset && this.props.fieldset.length > 1)
+            this.setState({fieldset: this.props.fieldset})
+    }
+
     onTextChange = (event, key) => {
         let fields = JSON.parse(JSON.stringify(this.state.fieldset));
 
@@ -195,8 +200,8 @@ class InputForm extends Component {
                                 <Form.Control as="textarea"
                                               rows="1"
                                               type="text"
+                                              value={this.state.fieldset[index].text}
                                               onChange={(event) => {
-                                                  console.log(event.target.value)
                                                   this.onTextChange(event, index)
                                               }}
                                               placeholder="Enter text"/>
@@ -212,6 +217,7 @@ class InputForm extends Component {
                                     <Form.Group controlId={index + 'text'}>
                                         <Form.Label>text</Form.Label>
                                         <Form.Control type="text"
+                                                      value={this.state.fieldset[index].text}
                                                       onChange={(event) => {
                                                           this.onLinkTextChange(event, index)
                                                       }}
@@ -222,6 +228,7 @@ class InputForm extends Component {
                                     <Form.Group controlId={index + 'URL'}>
                                         <Form.Label>URL</Form.Label>
                                         <Form.Control type="url"
+                                                      value={this.state.fieldset[index].url}
                                                       onChange={(event) => {
                                                           this.onLinkUrlChange(event, index)
                                                       }}
@@ -242,7 +249,6 @@ class InputForm extends Component {
                                     label="image input"
                                     custom
                                     onChange={(event) => {
-                                        console.log(event.target.value)
                                         this.onImageChange(event, index)
                                     }}
                                 />
@@ -256,8 +262,8 @@ class InputForm extends Component {
                             <Form.Group controlId={index}>
                                 <Form.Label>text</Form.Label>
                                 <Form.Control type="text"
+                                              value={this.state.fieldset[index].text}
                                               onChange={(event) => {
-                                                  console.log(event.target.value)
                                                   this.onHeaderChange(event, index)
                                               }}
                                               placeholder="Header"/>
@@ -271,6 +277,7 @@ class InputForm extends Component {
                             <Form.Group controlId={index}>
                                 <Form.Label>Main header</Form.Label>
                                 <Form.Control type="text"
+                                              value={this.state.fieldset[index].text}
                                               onChange={(event) => {
                                                   this.onMainHeaderChange(event, index)
                                               }}
@@ -281,7 +288,6 @@ class InputForm extends Component {
                 case inputType.gap :
                     return <div key={index} className={styles.InputContainer}
                                 style={{
-                                    // border: '1px solid #ced4da',
                                     padding: '16px',
                                     marginBottom: '16px'
                                 }}>
@@ -295,6 +301,7 @@ class InputForm extends Component {
                                 <Form.Control as="textarea"
                                               rows="1"
                                               type="text"
+                                              value={this.state.fieldset[index].text}
                                               onChange={(event) => {
                                                   console.log(event.target.value)
                                                   this.onTextChange(event,)

@@ -12,6 +12,13 @@ class Articles extends Component {
         this.props.fetch();
     }
 
+    editHandler = (fields) => {
+        this.props.setFields(fields)
+        this.props.history.push({
+            pathname: "/",
+        })
+    }
+
     render() {
         const articles = Object.keys(this.props.articles).map((key) => {
             return (
@@ -32,7 +39,7 @@ class Articles extends Component {
                                             </Accordion.Toggle>
                                             <Button onClick={(event) => {
                                                 event.preventDefault();
-                                                this.props.setFields(article.fields)
+                                                this.editHandler(article.fields)
                                             }}>edit</Button>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey={index}>

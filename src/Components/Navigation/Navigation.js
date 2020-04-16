@@ -1,7 +1,9 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
+import {connect} from 'react-redux'
 
 import {Navbar, Nav, Container} from "react-bootstrap";
+import * as constructorActions from "../../store/actions/constructor";
 
 const navigation = (props) => {
     return (
@@ -15,7 +17,7 @@ const navigation = (props) => {
                         <NavLink className="nav-link" exact to="/articles">
                             Articles list
                         </NavLink>
-                        <NavLink className="nav-link" exact to="/">
+                        <NavLink onClick={props.setInit} className="nav-link" exact to="/">
                                 Constructor
                         </NavLink>
                     </Nav>
@@ -25,4 +27,10 @@ const navigation = (props) => {
     )
 }
 
-export default navigation
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setInit: () => dispatch(constructorActions.setInit())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(navigation)

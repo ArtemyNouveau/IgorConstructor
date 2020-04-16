@@ -7,3 +7,5 @@ export const SET_ID = "SET_ID"
 export const FETCH_ARTICLES = "FETCH_ARTICLES"
 export const FETCH_SUCCESS = "FETCH_SUCCESS"
 export const FETCH_FAIL = "FETCH_FAIL"
+
+export const INITIALIZE = "INIT"

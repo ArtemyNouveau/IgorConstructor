@@ -21,6 +21,8 @@ const constructor = (state = initialState, action) => {
             return updateObject(state, {fields: state.fields.concat(action.field)})
         case actionTypes.SET_ID:
             return updateObject(state, {id: action.id})
+        case actionTypes.INITIALIZE:
+            return initialState
         default:
             return state
     }

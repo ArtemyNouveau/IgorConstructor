@@ -49,6 +49,12 @@ export const setId = (id) => {
     }
 }
 
+export const setInit = () => {
+    return {
+        type: actionTypes.INITIALIZE,
+    }
+}
+
 export const updateFields = (fieldset, articleHeader, id) => {
     return dispatch => {
         axiosInstance.put(`/articles/${id}.json`, {fields: fieldset, header: articleHeader})

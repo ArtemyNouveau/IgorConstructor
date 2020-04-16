@@ -25,3 +25,14 @@ export const fetch = () => {
             })
     }
 };
+
+export const del = (id) => {
+    return (dispatch) => {
+        axiosInstance.delete(`/articles/${id}.json`).then((response) => {
+            dispatch(fetch())
+        }).catch((err) => {
+            console.log(err)
+            dispatch(fetchFailed(err))
+        })
+    }
+}

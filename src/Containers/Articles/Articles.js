@@ -4,7 +4,9 @@ import * as articlesActions from '../../store/actions/articles'
 import * as constructorActions from '../../store/actions/constructor'
 
 import Article from "../../Components/Article/Article";
-import {Accordion, Card, Button, Spinner} from "react-bootstrap";
+import {Accordion, Card, Button, Spinner, ButtonGroup} from "react-bootstrap";
+
+import styles from './Article.module.css'
 
 class Articles extends Component {
     componentDidMount() {
@@ -17,6 +19,10 @@ class Articles extends Component {
         this.props.history.push({
             pathname: "/",
         })
+    }
+
+    deleteHandler = (id) => {
+        this.props.del(id)
     }
 
     render() {
@@ -36,13 +42,23 @@ class Articles extends Component {
                                 return (
                                     <Card key={index}>
                                         <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                                                {article.header.text}
-                                            </Accordion.Toggle>
-                                            <Button onClick={(event) => {
-                                                event.preventDefault();
-                                                this.editHandler(article.fields, IDs[index])
-                                            }}>edit</Button>
+                                            <div className={styles.ArticleHeader}>
+                                                <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                                                    {article.header.text}
+                                                </Accordion.Toggle>
+                                                <ButtonGroup>
+                                                    <Button onClick={(event) => {
+                                                        event.preventDefault();
+                                                        this.editHandler(article.fields, IDs[index])
+                                                    }}>edit</Button>
+
+                                                    <Button variant="danger"
+                                                            onClick={(event) => {
+                                                                event.preventDefault();
+                                                                this.deleteHandler(IDs[index])
+                                                            }}>delete</Button>
+                                                </ButtonGroup>
+                                            </div>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey={index}>
                                             <Card.Body>
@@ -65,6 +81,7 @@ class Articles extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetch: () => dispatch(articlesActions.fetch()),
+        del: (id) => dispatch(articlesActions.del(id)),
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
         setId: (id) => dispatch(constructorActions.setId(id))
     }

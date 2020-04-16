@@ -13,5 +13,5 @@
 .ButtonGroup {
     display: flex;
     flex-wrap: wrap;
-    justify-items: space-between;
+    justify-content: space-between;
 }

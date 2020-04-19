@@ -9,6 +9,8 @@ import * as inputType from '../../inputTypes'
 import styles from './InputForm.module.css';
 
 const inputForm = (props) => {
+    //TODO validation https://react-bootstrap.github.io/components/forms/#forms-validation
+
     const handleSubmit = (event) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {

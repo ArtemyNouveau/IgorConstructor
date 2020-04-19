@@ -43,6 +43,13 @@ const article = (props) => {
                                 return (
                                     <h2 key={index}>{field.text}</h2>
                                 )
+                            case inputType.mainImage:
+                                return (
+                                    <div className={styles.Image}
+                                         key={index}>
+                                        <img src={field.imgBase64} alt="can't display:("/>
+                                    </div>
+                                )
                             case inputType.gap:
                                 return <br key={index}/>
                             default:

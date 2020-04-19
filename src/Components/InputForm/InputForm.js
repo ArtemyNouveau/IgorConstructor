@@ -12,13 +12,12 @@ const inputForm = (props) => {
     //TODO validation https://react-bootstrap.github.io/components/forms/#forms-validation
 
     const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            return;
-        }
+        event.preventDefault();
+        event.stopPropagation();
 
+        const form = event.currentTarget;
+        if (form.checkValidity() === false)
+            return;
         if (props.id)
             updateArticle()
         else
@@ -63,10 +62,25 @@ const inputForm = (props) => {
                     text: event.target.value
                 }
                 break;
-            case inputType.image:
-                const file = event.target.files[0];
+            case inputType.mainImage: {
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    fields[key] = {
+                        inputType: inputType.mainImage,
+                        imgBase64: reader.result,
+                        imgName: file.name,
+                        imgType: file.type
+                    }
+                    props.setFields(fields)
+                }
+                reader.readAsDataURL(file);
+                break;
+            }
+            case inputType.image: {
+                let file = event.target.files[0];
                 // if (file.type)
-                const reader = new FileReader();
+                let reader = new FileReader();
                 reader.onloadend = function () {
                     fields[key] = {
                         inputType: inputType.image,
@@ -78,6 +92,7 @@ const inputForm = (props) => {
                 }
                 reader.readAsDataURL(file);
                 break;
+            }
             default:
                 fields[key] = {
                     inputType: inputType.text,
@@ -161,14 +176,14 @@ const inputForm = (props) => {
     }
 
     const updateArticle = () => {
-        props.update(props.fieldset, props.fieldset[0], props.id)
+        props.update(props.fieldset, props.fieldset[0], props.fieldset[1], props.id)
         props.history.push({
             pathname: "/articles",
         })
     }
 
     const saveArticle = () => {
-        props.save(props.fieldset, props.fieldset[0])
+        props.save(props.fieldset, props.fieldset[0], props.fieldset[1])
         props.history.push({
             pathname: "/articles",
         })
@@ -263,7 +278,6 @@ const inputForm = (props) => {
                                        }}
                             />
                         </Form.Group>
-                        {/*<img src={props.fieldset[index].imgBase64}/>*/}
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 )
@@ -298,6 +312,23 @@ const inputForm = (props) => {
                                           }}
                                           placeholder="Header"/>
                         </Form.Group>
+                    </div>
+                )
+            case inputType.mainImage:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <Form.Group controlId={index}>
+                            <Form.Label>Preview image</Form.Label>
+                            <Form.File label={props.fieldset[index].imgName}
+                                       accept="image/*"
+                                       required
+                                       custom
+                                       onChange={(event) => {
+                                           onInputChange(event, index)
+                                       }}
+                            />
+                        </Form.Group>
+                        <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 )
             case inputType.gap :
@@ -374,8 +405,8 @@ const inputForm = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
-        save: (fields, articleHeader) => dispatch(constructorActions.saveFields(fields, articleHeader)),
-        update: (fields, articleHeader, id) => dispatch(constructorActions.updateFields(fields, articleHeader, id))
+        save: (fields, articleHeader, articleBanner) => dispatch(constructorActions.saveFields(fields, articleHeader, articleBanner)),
+        update: (fields, articleHeader, articleBanner, id) => dispatch(constructorActions.updateFields(fields, articleHeader, articleBanner, id))
     }
 };
 

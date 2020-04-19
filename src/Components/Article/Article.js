@@ -19,7 +19,8 @@ const article = (props) => {
                                 )
                             case inputType.link:
                                 return (
-                                    <a key={index} target="_blank"
+                                    <a key={index}
+                                       target="_blank"
                                        className={styles.Link}
                                        href={field.url}>
                                         {field.text}
@@ -27,8 +28,9 @@ const article = (props) => {
                                 )
                             case inputType.image:
                                 return (
-                                    <div className={styles.Image} key={index}>
-                                        image
+                                    <div className={styles.Image}
+                                         key={index}>
+                                        <img src={field.imgBase64} alt="can't display:("/>
                                     </div>
                                 )
                             case inputType.header:

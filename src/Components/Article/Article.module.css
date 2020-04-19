@@ -5,3 +5,7 @@
 .Image {
     width: 100%;
 }
+
+.Image>img {
+    width: 100%;
+}

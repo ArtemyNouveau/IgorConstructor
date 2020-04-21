@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux'
-import * as constructorActions from '../../store/actions/constructor'
+import * as constructorActions from '../../store/constructor/actions'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
 
@@ -344,8 +344,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        fieldset: state.construct.fields,
-        id: state.construct.id
+        fieldset: state.constructor.fields,
+        id: state.constructor.id
     };
 };
 

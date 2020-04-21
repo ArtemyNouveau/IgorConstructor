@@ -1,4 +1,4 @@
-import * as actionTypes from './ActionTypes'
+import actionTypes from './actionTypes'
 import axiosInstance from "../../axiosInstance";
 
 export const addField = (field) => {

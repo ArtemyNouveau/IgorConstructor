@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Col, Row} from "react-bootstrap";
-import Article from "../../Components/Article/Article";
+import Article from "../Components/Article/Article";
 
-import InputForm from "../../Components/InputForm/InputForm";
+import InputForm from "../Components/InputForm/InputForm";
 
 
 class Constructor extends Component {

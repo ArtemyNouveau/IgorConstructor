@@ -28,9 +28,9 @@ export const saveFail = (error) => {
     }
 }
 
-export const saveFields = (fieldset, articleHeader) => {
+export const saveFields = (fieldset, articleHeader, articleBanner) => {
     return dispatch => {
-        axiosInstance.post('/articles.json', {fields: fieldset, header: articleHeader})
+        axiosInstance.post('/articles.json', {fields: fieldset, header: articleHeader, articleBanner: articleBanner})
             .then((response) => {
                 console.log(response.data)
                 dispatch(saveSuccess(response.data))
@@ -55,9 +55,9 @@ export const setInit = () => {
     }
 }
 
-export const updateFields = (fieldset, articleHeader, id) => {
+export const updateFields = (fieldset, articleHeader, articleBanner, id) => {
     return dispatch => {
-        axiosInstance.put(`/articles/${id}.json`, {fields: fieldset, header: articleHeader})
+        axiosInstance.put(`/articles/${id}.json`, {fields: fieldset, header: articleHeader, articleBanner: articleBanner})
             .then((response) => {
                 console.log(response.data)
                 dispatch(saveSuccess(response.data))

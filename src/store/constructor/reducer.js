@@ -7,6 +7,12 @@ const initialState = {
         {
             inputType: inputType.mainHeader,
             text: ''
+        },
+        {
+            inputType: inputType.mainImage,
+            imgBase64: '',
+            imgName: '',
+            imgType: ''
         }
     ],
     loading: false,

@@ -4,7 +4,7 @@ import * as inputType from "../../inputTypes";
 import styles from './Article.module.css'
 
 const article = (props) => {
-    if (!!!props.fieldset) return (<div/>)
+    if (!!!props.fieldset) return (<div/>);
     return (
         <div>
             {
@@ -16,7 +16,7 @@ const article = (props) => {
                                        className={styles.Text}>
                                         {field.text}
                                     </p>
-                                )
+                                );
                             case inputType.link:
                                 return (
                                     <a key={index} target="_blank"
@@ -24,23 +24,23 @@ const article = (props) => {
                                        href={field.url}>
                                         {field.text}
                                     </a>
-                                )
+                                );
                             case inputType.image:
                                 return (
                                     <div className={styles.Image} key={index}>
                                         image
                                     </div>
-                                )
+                                );
                             case inputType.header:
                                 return (
                                     <h3 key={index}>
                                         {field.text}
                                     </h3>
-                                )
+                                );
                             case inputType.mainHeader:
                                 return (
                                     <h2 key={index}>{field.text}</h2>
-                                )
+                                );
                             case inputType.gap:
                                 return <br key={index}/>
                             default:
@@ -55,6 +55,6 @@ const article = (props) => {
             }
         </div>
     )
-}
+};
 
 export default article

@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
-import Constructor from "./Pages/Constructors";
+import Constructor from "./Pages/Constructor/Constructors";
 import Articles from "./Pages/Articles/Articles";
 import Layout from "./Containers/Layout/Layout";
 

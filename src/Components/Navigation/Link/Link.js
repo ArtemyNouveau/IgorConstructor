@@ -8,7 +8,7 @@ const link = (props) => (
     <NavLink exact
              activeClassName={styles.active}
              to={props.link}>
-        <Nav.Link href="#constructor">
+        <Nav.Link href="#construct">
             {props.children}
         </Nav.Link>
     </NavLink>

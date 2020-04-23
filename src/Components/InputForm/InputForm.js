@@ -192,7 +192,7 @@ const inputForm = (props) => {
 
 
     let input;
-    if (!!!props.fieldset)
+    if (!props.fieldset)
         input = (
             <div className={styles.InputContainer}>
                 <Form.Group controlId={0}>
@@ -272,7 +272,7 @@ const inputForm = (props) => {
                             <Form.Label>Image</Form.Label>
                             <Form.File label={props.fieldset[index].imgName}
                                        accept="image/*"
-                                       required
+                                       required={props.fieldset[index].imgName === ''}
                                        custom
                                        onChange={(event) => {
                                            onInputChange(event, index)
@@ -323,7 +323,7 @@ const inputForm = (props) => {
                             <Form.Label>Preview image</Form.Label>
                             <Form.File label={props.fieldset[index].imgName}
                                        accept="image/*"
-                                       required
+                                       required={props.fieldset[index].imgName === ''}
                                        custom
                                        onChange={(event) => {
                                            onInputChange(event, index)
@@ -412,11 +412,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const mapStateToProps = (state) => {
-    return {
-        fieldset: state.constructor.fields,
-        id: state.constructor.id
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(inputForm)
+export default connect(null, mapDispatchToProps)(inputForm)

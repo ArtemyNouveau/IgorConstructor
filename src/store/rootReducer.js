@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import articles from './articles/reducer';
-import constructor from './constructor/reducer';
-const appReducer = combineReducers({articles, constructor})
+import construct from './constructor/reducer';
+const appReducer = combineReducers({articles, construct})
 const rootReducer = (state, actionValue) => appReducer(state, actionValue);
 
 export default rootReducer;

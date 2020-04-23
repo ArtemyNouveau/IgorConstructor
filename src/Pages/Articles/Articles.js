@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import * as articlesActions from '../../store/actions/articles'
-import * as constructorActions from '../../store/actions/constructor'
+import * as articlesActions from '../../store/articles/actions'
+import * as constructorActions from '../../store/constructor/actions'
 
 import Article from "../../Components/Article/Article";
 import {Accordion, Card, Button, Spinner, ButtonGroup} from "react-bootstrap";

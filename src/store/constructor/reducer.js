@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/ActionTypes'
+import actionTypes from './actionTypes'
 import {updateObject} from "../Utility";
 import * as inputType from "../../inputTypes";
 
@@ -17,21 +17,19 @@ const initialState = {
     ],
     loading: false,
     id: null
-}
+};
 
-const constructor = (state = initialState, action) => {
+export default function (state = initialState, action) {
     switch (action.type) {
         case actionTypes.SET_FIELDS:
-            return updateObject(state, {fields: action.fieldset})
+            return updateObject(state, {fields: action.fieldset});
         case actionTypes.ADD_FIELD:
-            return updateObject(state, {fields: state.fields.concat(action.field)})
+            return updateObject(state, {fields: state.fields.concat(action.field)});
         case actionTypes.SET_ID:
-            return updateObject(state, {id: action.id})
+            return updateObject(state, {id: action.id});
         case actionTypes.INITIALIZE:
-            return initialState
+            return initialState;
         default:
             return state
     }
 }
-
-export default constructor

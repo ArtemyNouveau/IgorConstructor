@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux'
-import * as constructorActions from '../../store/actions/constructor'
+import * as constructorActions from '../../store/constructor/actions'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
 
@@ -42,25 +42,25 @@ const inputForm = (props) => {
                         inputType: inputType.link,
                         url: event.target.value,
                         text: props.fieldset[key].text
-                    }
+                    };
                 else
                     fields[key] = {
                         inputType: inputType.link,
                         text: event.target.value,
                         url: props.fieldset[key].url
-                    }
+                    };
                 break;
             case inputType.header:
                 fields[key] = {
                     inputType: inputType.header,
                     text: event.target.value
-                }
+                };
                 break;
             case inputType.mainHeader:
                 fields[key] = {
                     inputType: inputType.mainHeader,
                     text: event.target.value
-                }
+                };
                 break;
             case inputType.mainImage: {
                 let file = event.target.files[0];
@@ -101,7 +101,7 @@ const inputForm = (props) => {
         }
 
         props.setFields(fields)
-    }
+    };
 
     const clearedFields = () => {
         let fields = JSON.parse(JSON.stringify(props.fieldset));
@@ -114,13 +114,13 @@ const inputForm = (props) => {
             ) &&
             fields[fields.length - 1].text === ''
 
-        ) fields.pop()
+        ) fields.pop();
         else if (
             fields[fields.length - 1].inputType === inputType.image &&
             fields[fields.length - 1].img === ''
-        ) fields.pop()
+        ) fields.pop();
         return fields
-    }
+    };
 
     const onAdd = (type) => {
         let fields = clearedFields();
@@ -130,14 +130,14 @@ const inputForm = (props) => {
                 fields.push({
                     inputType: inputType.text,
                     text: ''
-                })
+                });
                 break;
             case inputType.link:
                 fields.push({
                     inputType: inputType.link,
                     text: '',
                     url: ''
-                })
+                });
                 break;
             case inputType.image:
                 fields.push({
@@ -145,19 +145,19 @@ const inputForm = (props) => {
                     imgBase64: '',
                     imgName: '',
                     imgType: ''
-                })
+                });
                 break;
             case inputType.header:
                 fields.push({
                     inputType: inputType.header,
                     text: ''
-                })
+                });
                 break;
             case inputType.gap:
                 fields.push({
                     inputType: inputType.gap,
-                })
-                break
+                });
+                break;
             default:
                 fields.push({
                     inputType: inputType.gap,
@@ -165,29 +165,30 @@ const inputForm = (props) => {
         }
 
         props.setFields(fields)
-    }
+    };
 
     const onRemove = (key) => {
         let fields = JSON.parse(JSON.stringify(props.fieldset));
 
-        fields.splice(key, 1)
+        fields.splice(key, 1);
 
         props.setFields(fields)
-    }
+    };
 
     const updateArticle = () => {
         props.update(props.fieldset, props.fieldset[0], props.fieldset[1], props.id)
         props.history.push({
             pathname: "/articles",
         })
-    }
+    };
 
     const saveArticle = () => {
+
         props.save(props.fieldset, props.fieldset[0], props.fieldset[1])
         props.history.push({
             pathname: "/articles",
         })
-    }
+    };
 
 
     let input;
@@ -202,13 +203,13 @@ const inputForm = (props) => {
                                   minlength={1}
                                   required
                                   onChange={(event) => {
-                                      console.log(event.target.value)
+                                      console.log(event.target.value);
                                       onInputChange(event, 0)
                                   }}
                                   placeholder="Enter text"/>
                 </Form.Group>
             </div>
-        )
+        );
     else input = props.fieldset.map((field, index) => {
         switch (field.inputType) {
             case inputType.text:
@@ -229,7 +230,7 @@ const inputForm = (props) => {
                             <RemoveButton onClick={() => onRemove(index)}/>
                         </Form.Group>
                     </div>
-                )
+                );
             case inputType.link:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -263,7 +264,7 @@ const inputForm = (props) => {
                         </Row>
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
-                )
+                );
             case inputType.image:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -280,7 +281,7 @@ const inputForm = (props) => {
                         </Form.Group>
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
-                )
+                );
             case inputType.header:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -297,7 +298,7 @@ const inputForm = (props) => {
                             <RemoveButton onClick={() => onRemove(index)}/>
                         </Form.Group>
                     </div>
-                )
+                );
             case inputType.mainHeader:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -313,6 +314,7 @@ const inputForm = (props) => {
                                           placeholder="Header"/>
                         </Form.Group>
                     </div>
+
                 )
             case inputType.mainImage:
                 return (
@@ -338,7 +340,7 @@ const inputForm = (props) => {
                                 marginBottom: '16px'
                             }}>
                     <RemoveButton onClick={() => onRemove(index)}/>
-                </div>
+                </div>;
             default:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -351,7 +353,7 @@ const inputForm = (props) => {
                                           required
                                           value={props.fieldset[index].text}
                                           onChange={(event) => {
-                                              console.log(event.target.value)
+                                              console.log(event.target.value);
                                               onInputChange(event,)
                                           }}
                                           placeholder="Enter text"/>
@@ -360,7 +362,7 @@ const inputForm = (props) => {
                     </div>
                 )
         }
-    })
+    });
 
     return (
         <Form noValidate validated={true} onSubmit={handleSubmit}>
@@ -400,7 +402,7 @@ const inputForm = (props) => {
             </Form.Group>
         </Form>
     )
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -412,8 +414,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        fieldset: state.construct.fields,
-        id: state.construct.id
+        fieldset: state.constructor.fields,
+        id: state.constructor.id
     };
 };
 

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import {connect} from 'react-redux'
 import * as constructorActions from '../../store/constructor/actions'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
@@ -9,6 +9,23 @@ import * as inputType from '../../inputTypes'
 import styles from './InputForm.module.css';
 
 const inputForm = (props) => {
+    //TODO validation https://react-bootstrap.github.io/components/forms/#forms-validation
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const form = event.currentTarget;
+        if (form.checkValidity() === false)
+            return;
+        if (props.id)
+            updateArticle()
+        else
+            saveArticle()
+
+        console.log(form.checkValidity())
+    };
+
     const onInputChange = (event, key, isURL = false) => {
         let fields = JSON.parse(JSON.stringify(props.fieldset));
 
@@ -45,12 +62,37 @@ const inputForm = (props) => {
                     text: event.target.value
                 };
                 break;
-            case inputType.image:
-                fields[key] = {
-                    inputType: inputType.image,
-                    img: event.target.value
-                };
+            case inputType.mainImage: {
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    fields[key] = {
+                        inputType: inputType.mainImage,
+                        imgBase64: reader.result,
+                        imgName: file.name,
+                        imgType: file.type
+                    }
+                    props.setFields(fields)
+                }
+                reader.readAsDataURL(file);
                 break;
+            }
+            case inputType.image: {
+                let file = event.target.files[0];
+                // if (file.type)
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    fields[key] = {
+                        inputType: inputType.image,
+                        imgBase64: reader.result,
+                        imgName: file.name,
+                        imgType: file.type
+                    }
+                    props.setFields(fields)
+                }
+                reader.readAsDataURL(file);
+                break;
+            }
             default:
                 fields[key] = {
                     inputType: inputType.text,
@@ -100,7 +142,9 @@ const inputForm = (props) => {
             case inputType.image:
                 fields.push({
                     inputType: inputType.image,
-                    img: '',
+                    imgBase64: '',
+                    imgName: '',
+                    imgType: ''
                 });
                 break;
             case inputType.header:
@@ -132,18 +176,20 @@ const inputForm = (props) => {
     };
 
     const updateArticle = () => {
-        props.update(props.fieldset, props.fieldset[0], props.id);
+        props.update(props.fieldset, props.fieldset[0], props.fieldset[1], props.id)
         props.history.push({
             pathname: "/articles",
         })
     };
 
     const saveArticle = () => {
-        props.save(props.fieldset, props.fieldset[0]);
+
+        props.save(props.fieldset, props.fieldset[0], props.fieldset[1])
         props.history.push({
             pathname: "/articles",
         })
     };
+
 
     let input;
     if (!!!props.fieldset)
@@ -154,6 +200,8 @@ const inputForm = (props) => {
                     <Form.Control as="textarea"
                                   rows="1"
                                   type="text"
+                                  minlength={1}
+                                  required
                                   onChange={(event) => {
                                       console.log(event.target.value);
                                       onInputChange(event, 0)
@@ -172,6 +220,8 @@ const inputForm = (props) => {
                             <Form.Control as="textarea"
                                           rows="1"
                                           type="text"
+                                          minlength={1}
+                                          required
                                           value={props.fieldset[index].text}
                                           onChange={(event) => {
                                               onInputChange(event, index)
@@ -189,6 +239,8 @@ const inputForm = (props) => {
                                 <Form.Group controlId={index + 'text'}>
                                     <Form.Label>text</Form.Label>
                                     <Form.Control type="text"
+                                                  minlength={1}
+                                                  required
                                                   value={props.fieldset[index].text}
                                                   onChange={(event) => {
                                                       onInputChange(event, index)
@@ -200,6 +252,8 @@ const inputForm = (props) => {
                                 <Form.Group controlId={index + 'URL'}>
                                     <Form.Label>URL</Form.Label>
                                     <Form.Control type="url"
+                                                  minlength={1}
+                                                  required
                                                   value={props.fieldset[index].url}
                                                   onChange={(event) => {
                                                       onInputChange(event, index, true)
@@ -216,13 +270,13 @@ const inputForm = (props) => {
                     <div key={index} className={styles.InputContainer}>
                         <Form.Group controlId={index}>
                             <Form.Label>Image</Form.Label>
-                            <Form.File
-                                id={index}
-                                label="image input"
-                                custom
-                                onChange={(event) => {
-                                    onInputChange(event, index)
-                                }}
+                            <Form.File label={props.fieldset[index].imgName}
+                                       accept="image/*"
+                                       required
+                                       custom
+                                       onChange={(event) => {
+                                           onInputChange(event, index)
+                                       }}
                             />
                         </Form.Group>
                         <RemoveButton onClick={() => onRemove(index)}/>
@@ -234,6 +288,8 @@ const inputForm = (props) => {
                         <Form.Group controlId={index}>
                             <Form.Label>text</Form.Label>
                             <Form.Control type="text"
+                                          minlength={1}
+                                          required
                                           value={props.fieldset[index].text}
                                           onChange={(event) => {
                                               onInputChange(event, index)
@@ -249,6 +305,8 @@ const inputForm = (props) => {
                         <Form.Group controlId={index}>
                             <Form.Label>Main header</Form.Label>
                             <Form.Control type="text"
+                                          minlength={1}
+                                          required
                                           value={props.fieldset[index].text}
                                           onChange={(event) => {
                                               onInputChange(event, index)
@@ -256,7 +314,25 @@ const inputForm = (props) => {
                                           placeholder="Header"/>
                         </Form.Group>
                     </div>
-                );
+
+                )
+            case inputType.mainImage:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <Form.Group controlId={index}>
+                            <Form.Label>Preview image</Form.Label>
+                            <Form.File label={props.fieldset[index].imgName}
+                                       accept="image/*"
+                                       required
+                                       custom
+                                       onChange={(event) => {
+                                           onInputChange(event, index)
+                                       }}
+                            />
+                        </Form.Group>
+                        <RemoveButton onClick={() => onRemove(index)}/>
+                    </div>
+                )
             case inputType.gap :
                 return <div key={index} className={styles.InputContainer}
                             style={{
@@ -273,6 +349,8 @@ const inputForm = (props) => {
                             <Form.Control as="textarea"
                                           rows="1"
                                           type="text"
+                                          minlength={1}
+                                          required
                                           value={props.fieldset[index].text}
                                           onChange={(event) => {
                                               console.log(event.target.value);
@@ -287,7 +365,7 @@ const inputForm = (props) => {
     });
 
     return (
-        <Form>
+        <Form noValidate validated={true} onSubmit={handleSubmit}>
             {input}
             <Form.Group className={styles.ButtonGroup}
                         controlId="switchers">
@@ -312,20 +390,12 @@ const inputForm = (props) => {
                 {props.id ?
                     <Button variant="success"
                             type="submit"
-                            size="sm"
-                            onClick={(event) => {
-                                event.preventDefault()
-                                updateArticle()
-                            }}>
+                            size="sm">
                         update
                     </Button> :
                     <Button variant="success"
                             type="submit"
-                            size="sm"
-                            onClick={(event) => {
-                                event.preventDefault()
-                                saveArticle()
-                            }}>
+                            size="sm">
                         Save
                     </Button>
                 }
@@ -337,8 +407,8 @@ const inputForm = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
-        save: (fields, articleHeader) => dispatch(constructorActions.saveFields(fields, articleHeader)),
-        update: (fields, articleHeader, id) => dispatch(constructorActions.updateFields(fields, articleHeader, id))
+        save: (fields, articleHeader, articleBanner) => dispatch(constructorActions.saveFields(fields, articleHeader, articleBanner)),
+        update: (fields, articleHeader, articleBanner, id) => dispatch(constructorActions.updateFields(fields, articleHeader, articleBanner, id))
     }
 };
 

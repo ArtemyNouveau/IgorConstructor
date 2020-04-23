@@ -2,7 +2,12 @@ import React from "react";
 import {connect} from 'react-redux'
 import * as constructorActions from '../../store/constructor/actions'
 import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
+
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
+import TextField from "./InputGroups/TextField";
+import Link from "./InputGroups/Link";
+import Image from "./InputGroups/Image";
+import Header from "./InputGroups/Header";
 
 import * as inputType from '../../inputTypes'
 
@@ -79,7 +84,6 @@ const inputForm = (props) => {
             }
             case inputType.image: {
                 let file = event.target.files[0];
-                // if (file.type)
                 let reader = new FileReader();
                 reader.onloadend = function () {
                     fields[key] = {
@@ -191,174 +195,71 @@ const inputForm = (props) => {
     };
 
 
-    let input;
-    if (!props.fieldset)
-        input = (
-            <div className={styles.InputContainer}>
-                <Form.Group controlId={0}>
-                    <Form.Label>text</Form.Label>
-                    <Form.Control as="textarea"
-                                  rows="1"
-                                  type="text"
-                                  minlength={1}
-                                  required
-                                  onChange={(event) => {
-                                      console.log(event.target.value);
-                                      onInputChange(event, 0)
-                                  }}
-                                  placeholder="Enter text"/>
-                </Form.Group>
-            </div>
-        );
-    else input = props.fieldset.map((field, index) => {
+    let input = props.fieldset.map((field, index) => {
         switch (field.inputType) {
             case inputType.text:
                 return (
                     <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>text</Form.Label>
-                            <Form.Control as="textarea"
-                                          rows="1"
-                                          type="text"
-                                          minlength={1}
-                                          required
-                                          value={props.fieldset[index].text}
-                                          onChange={(event) => {
-                                              onInputChange(event, index)
-                                          }}
-                                          placeholder="Enter text"/>
-                            <RemoveButton onClick={() => onRemove(index)}/>
-                        </Form.Group>
+                        <TextField id={index}
+                                   text={props.fieldset[index].text}
+                                   onInputChange={onInputChange}/>
+                        <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
             case inputType.link:
                 return (
                     <div key={index} className={styles.InputContainer}>
-                        <Row>
-                            <Col>
-                                <Form.Group controlId={index + 'text'}>
-                                    <Form.Label>text</Form.Label>
-                                    <Form.Control type="text"
-                                                  minlength={1}
-                                                  required
-                                                  value={props.fieldset[index].text}
-                                                  onChange={(event) => {
-                                                      onInputChange(event, index)
-                                                  }}
-                                                  placeholder="Enter text"/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group controlId={index + 'URL'}>
-                                    <Form.Label>URL</Form.Label>
-                                    <Form.Control type="url"
-                                                  minlength={1}
-                                                  required
-                                                  value={props.fieldset[index].url}
-                                                  onChange={(event) => {
-                                                      onInputChange(event, index, true)
-                                                  }}
-                                                  placeholder="Enter text"/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                        <Link id={index}
+                              text={props.fieldset[index].text}
+                              url={props.fieldset[index].url}
+                              onInputChange={onInputChange}/>
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
             case inputType.image:
                 return (
                     <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>Image</Form.Label>
-                            <Form.File label={props.fieldset[index].imgName}
-                                       accept="image/*"
-                                       required={props.fieldset[index].imgName === ''}
-                                       custom
-                                       onChange={(event) => {
-                                           onInputChange(event, index)
-                                       }}
-                            />
-                        </Form.Group>
+                        <Image id={index}
+                               imgName={props.fieldset[index].imgName}
+                               onInputChange={onInputChange}/>
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
+            case inputType.mainImage:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <Image id={index}
+                               imgName={props.fieldset[index].imgName}
+                               onInputChange={onInputChange}/>
+                    </div>
+                )
             case inputType.header:
                 return (
                     <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>text</Form.Label>
-                            <Form.Control type="text"
-                                          minlength={1}
-                                          required
-                                          value={props.fieldset[index].text}
-                                          onChange={(event) => {
-                                              onInputChange(event, index)
-                                          }}
-                                          placeholder="Header"/>
-                            <RemoveButton onClick={() => onRemove(index)}/>
-                        </Form.Group>
+                        <Header id={index}
+                                text={props.fieldset[index].text}
+                                onInputChange={onInputChange}/>
+                        <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
             case inputType.mainHeader:
                 return (
                     <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>Main header</Form.Label>
-                            <Form.Control type="text"
-                                          minlength={1}
-                                          required
-                                          value={props.fieldset[index].text}
-                                          onChange={(event) => {
-                                              onInputChange(event, index)
-                                          }}
-                                          placeholder="Header"/>
-                        </Form.Group>
-                    </div>
-
-                )
-            case inputType.mainImage:
-                return (
-                    <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>Preview image</Form.Label>
-                            <Form.File label={props.fieldset[index].imgName}
-                                       accept="image/*"
-                                       required={props.fieldset[index].imgName === ''}
-                                       custom
-                                       onChange={(event) => {
-                                           onInputChange(event, index)
-                                       }}
-                            />
-                        </Form.Group>
-                        <RemoveButton onClick={() => onRemove(index)}/>
+                        <Header id={index}
+                                text={props.fieldset[index].text}
+                                onInputChange={onInputChange}/>
                     </div>
                 )
             case inputType.gap :
-                return <div key={index} className={styles.InputContainer}
-                            style={{
-                                padding: '16px',
-                                marginBottom: '16px'
-                            }}>
-                    <RemoveButton onClick={() => onRemove(index)}/>
-                </div>;
+                return (
+                    <div key={index} className={[styles.InputContainer, styles.GapBlock].join(' ')}>
+                        <RemoveButton onClick={() => onRemove(index)}/>
+                    </div>
+                )
             default:
                 return (
-                    <div key={index} className={styles.InputContainer}>
-                        <Form.Group controlId={index}>
-                            <Form.Label>text</Form.Label>
-                            <Form.Control as="textarea"
-                                          rows="1"
-                                          type="text"
-                                          minlength={1}
-                                          required
-                                          value={props.fieldset[index].text}
-                                          onChange={(event) => {
-                                              console.log(event.target.value);
-                                              onInputChange(event,)
-                                          }}
-                                          placeholder="Enter text"/>
-                            <RemoveButton onClick={() => onRemove(index)}/>
-                        </Form.Group>
+                    <div key={index} className={[styles.InputContainer, styles.GapBlock].join(' ')}>
+                        <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 )
         }

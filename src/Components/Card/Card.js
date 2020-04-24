@@ -1,10 +1,12 @@
 import React, {Fragment} from "react";
 import {Card} from "react-bootstrap";
+import randomPic from "../../assets/randomPics/randomPics";
 
 const articleCard = (props) => {
+    const randomImage = randomPic();
     return (
-        <Card>
-            <Card.Img variant="top" src={props.image}/>
+        <Card style={{}}>
+            <Card.Img variant="top" src={props.image ? props.image : randomImage}/>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Text>{props.text}</Card.Text>

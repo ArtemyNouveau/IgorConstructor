@@ -4,13 +4,13 @@ import * as inputType from "../../inputTypes";
 
 const initialState = {
     card: {
-        header: '',
-        text: '',
+        header: 'Sample card title',
+        text: 'Short, yet descriptive text',
         image: {
             imgBase64: '',
             imgName: '',
         },
-        type: ''
+        type: 'listening'
     },
     fields: [
         {

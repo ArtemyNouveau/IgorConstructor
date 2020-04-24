@@ -5,7 +5,7 @@ const image = (props) => {
     return (
         <Form.Group controlId={props.id}>
             <Form.Label>Image</Form.Label>
-            <Form.File label={props.imgName}
+            <Form.File label={props.imgName ? props.imgName : "Choose image for card"}
                        accept="image/*"
                        required={props.imgName === ''}
                        custom

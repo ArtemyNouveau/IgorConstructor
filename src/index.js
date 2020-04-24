@@ -16,7 +16,7 @@ const initialState = {
     constructor: {
         fields: [
             {
-                inputType: inputType.mainHeader,
+                inputType: inputType.cardHeader,
                 text: ''
             }
         ],

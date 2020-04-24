@@ -8,4 +8,5 @@ export default keyMirror({
     SAVE_FAIL: null,
     INITIALIZE: null,
     SET_ID: null,
+    SET_CARD: null,
 });

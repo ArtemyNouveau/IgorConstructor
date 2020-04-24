@@ -1,13 +1,14 @@
 import React from "react";
 import {connect} from 'react-redux'
 import * as constructorActions from '../../store/constructor/actions'
-import {Form, ButtonGroup, Button, Row, Col} from "react-bootstrap";
+import {Form, ButtonGroup, Button} from "react-bootstrap";
 
 import RemoveButton from "../UI/RemoveButton/RemoveButton";
 import TextField from "./InputGroups/TextField";
 import Link from "./InputGroups/Link";
 import Image from "./InputGroups/Image";
 import Header from "./InputGroups/Header";
+import ExerciseTypes from "./InputGroups/ExerciseType";
 
 import * as inputType from '../../inputTypes'
 
@@ -31,8 +32,39 @@ const inputForm = (props) => {
         console.log(form.checkValidity())
     };
 
+    const onCardHeaderChange = (event) => {
+        const card = JSON.parse(JSON.stringify(props.card));
+        card.header = event.target.value
+        props.setCard(card)
+    }
+
+    const onCardImageChange = (event) => {
+        const card = JSON.parse(JSON.stringify(props.card));
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            card.imgBase64 = reader.result;
+            card.imgName = file.name;
+            props.setCard(card)
+        }
+        reader.readAsDataURL(file);
+    }
+
+    const onCardTextChange = (event) => {
+        const card = JSON.parse(JSON.stringify(props.card));
+        card.text = event.target.value
+        props.setCard(card)
+    }
+
+    const onCardTypeChange = (event) => {
+        const card = JSON.parse(JSON.stringify(props.card));
+        card.type = event.target.value
+        props.setCard(card)
+        console.log(card.header)
+    }
+
     const onInputChange = (event, key, isURL = false) => {
-        let fields = JSON.parse(JSON.stringify(props.fieldset));
+        const fields = JSON.parse(JSON.stringify(props.fieldset));
 
         switch (fields[key].inputType) {
             case inputType.text:
@@ -61,18 +93,18 @@ const inputForm = (props) => {
                     text: event.target.value
                 };
                 break;
-            case inputType.mainHeader:
+            case inputType.cardHeader:
                 fields[key] = {
-                    inputType: inputType.mainHeader,
+                    inputType: inputType.cardHeader,
                     text: event.target.value
                 };
                 break;
-            case inputType.mainImage: {
+            case inputType.cardImage: {
                 let file = event.target.files[0];
                 let reader = new FileReader();
                 reader.onloadend = function () {
                     fields[key] = {
-                        inputType: inputType.mainImage,
+                        inputType: inputType.cardImage,
                         imgBase64: reader.result,
                         imgName: file.name,
                         imgType: file.type
@@ -103,12 +135,11 @@ const inputForm = (props) => {
                     text: event.target.value
                 };
         }
-
         props.setFields(fields)
     };
 
     const clearedFields = () => {
-        let fields = JSON.parse(JSON.stringify(props.fieldset));
+        const fields = JSON.parse(JSON.stringify(props.fieldset));
         if (
             fields.length > 0 &&
             (
@@ -225,14 +256,6 @@ const inputForm = (props) => {
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
-            case inputType.mainImage:
-                return (
-                    <div key={index} className={styles.InputContainer}>
-                        <Image id={index}
-                               imgName={props.fieldset[index].imgName}
-                               onInputChange={onInputChange}/>
-                    </div>
-                )
             case inputType.header:
                 return (
                     <div key={index} className={styles.InputContainer}>
@@ -242,18 +265,42 @@ const inputForm = (props) => {
                         <RemoveButton onClick={() => onRemove(index)}/>
                     </div>
                 );
-            case inputType.mainHeader:
-                return (
-                    <div key={index} className={styles.InputContainer}>
-                        <Header id={index}
-                                text={props.fieldset[index].text}
-                                onInputChange={onInputChange}/>
-                    </div>
-                )
             case inputType.gap :
                 return (
                     <div key={index} className={[styles.InputContainer, styles.GapBlock].join(' ')}>
                         <RemoveButton onClick={() => onRemove(index)}/>
+                    </div>
+                )
+            case inputType.cardHeader:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <Header id={index}
+                                text={props.card.header}
+                                onInputChange={onCardHeaderChange}/>
+                    </div>
+                )
+            case inputType.cardText:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <TextField id={index}
+                                   text={props.card.text}
+                                   onInputChange={onCardTextChange}/>
+                    </div>
+                )
+            case inputType.cardImage:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <Image id={index}
+                               imgName={props.card.imgName}
+                               onInputChange={onCardImageChange}/>
+                    </div>
+                )
+            case inputType.exerciseType:
+                return (
+                    <div key={index} className={styles.InputContainer}>
+                        <ExerciseTypes id={index}
+                                       value={props.card.type}
+                                       onInputChange={onCardTypeChange}/>
                     </div>
                 )
             default:
@@ -308,6 +355,7 @@ const inputForm = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
+        setCard: (card) => dispatch(constructorActions.setCard(card)),
         save: (fields, articleHeader, articleBanner) => dispatch(constructorActions.saveFields(fields, articleHeader, articleBanner)),
         update: (fields, articleHeader, articleBanner, id) => dispatch(constructorActions.updateFields(fields, articleHeader, articleBanner, id))
     }

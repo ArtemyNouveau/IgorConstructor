@@ -15,6 +15,13 @@ export const setFields = (fieldset) => {
     }
 }
 
+export const setCard = (card) => {
+    return {
+        type: actionTypes.SET_CARD,
+        card: card
+    }
+}
+
 export const saveSuccess = (data) => {
     return {
         type: actionTypes.SAVE_SUCCESS

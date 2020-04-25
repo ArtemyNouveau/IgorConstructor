@@ -19,7 +19,7 @@ class Constructor extends Component {
                                id={this.props.id}/>
                     <div className="d-block d-lg-none d-xl-none">
                         <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
-                        <ArticleCard image={this.props.card.imgBase64}
+                        <ArticleCard image={this.props.card.image.imgBase64}
                                      type={this.props.card.type}
                                      text={this.props.card.text}
                                      title={this.props.card.header}/>

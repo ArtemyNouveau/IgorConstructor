@@ -1,7 +1,7 @@
 .ArticleHeader {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: center;
     align-items: stretch;
 }
 
@@ -9,5 +9,5 @@
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
-    justify-content: space-between;
+    justify-content: space-around;
 }

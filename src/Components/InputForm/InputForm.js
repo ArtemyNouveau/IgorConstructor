@@ -43,8 +43,8 @@ const inputForm = (props) => {
         let file = event.target.files[0];
         let reader = new FileReader();
         reader.onloadend = function () {
-            card.imgBase64 = reader.result;
-            card.imgName = file.name;
+            card.image.imgBase64 = reader.result;
+            card.image.imgName = file.name;
             props.setCard(card)
         }
         reader.readAsDataURL(file);
@@ -219,7 +219,7 @@ const inputForm = (props) => {
 
     const saveArticle = () => {
 
-        props.save(props.fieldset, props.fieldset[0], props.fieldset[1])
+        props.save(props.fieldset, props.card)
         props.history.push({
             pathname: "/articles",
         })
@@ -291,7 +291,7 @@ const inputForm = (props) => {
                 return (
                     <div key={index} className={styles.InputContainer}>
                         <Image id={index}
-                               imgName={props.card.imgName}
+                               imgName={props.card.image.imgName}
                                onInputChange={onCardImageChange}/>
                     </div>
                 )
@@ -356,7 +356,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
         setCard: (card) => dispatch(constructorActions.setCard(card)),
-        save: (fields, articleHeader, articleBanner) => dispatch(constructorActions.saveFields(fields, articleHeader, articleBanner)),
+        save: (fields, card) => dispatch(constructorActions.saveFields(fields, card)),
         update: (fields, articleHeader, articleBanner, id) => dispatch(constructorActions.updateFields(fields, articleHeader, articleBanner, id))
     }
 };

@@ -2,19 +2,39 @@ import actionTypes from "./actionTypes";
 import {updateObject} from "../Utility";
 
 const initialState = {
-    articles: [],
-    loading: true
+    article: {
+        fields: null,
+        id: null
+    },
+    cards: [],
+    loading: true,
+    articleLoading: false
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case actionTypes.FETCH_SUCCESS:
+        case actionTypes.SET_CARDS:
             return updateObject(state, {
-                articles: action.articles,
+                cards: action.cards,
                 loading: false
             });
+        case actionTypes.FETCH_ARTICLE:
+            return updateObject(state, {articleLoading: true})
+        case actionTypes.FETCH_CARD:
+            return updateObject(state, {articleLoading: true})
+        case actionTypes.SET_ARTICLE:
+            return updateObject(state, {
+                article: {
+                    fields: action.fields,
+                    id: action.id
+                },
+                articleLoading: false
+            })
         case actionTypes.FETCH_FAIL:
-            return updateObject(state, {loading: false});
+            return updateObject(state, {
+                loading: false,
+                articleLoading: false
+            });
         default:
             return state
     }

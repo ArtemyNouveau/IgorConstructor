@@ -4,3 +4,10 @@
     justify-content: space-between;
     align-items: stretch;
 }
+
+.CardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-between;
+}

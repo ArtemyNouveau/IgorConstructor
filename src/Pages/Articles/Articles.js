@@ -3,14 +3,27 @@ import {connect} from "react-redux";
 import * as articlesActions from '../../store/articles/actions'
 import * as constructorActions from '../../store/constructor/actions'
 
+import ArticleCard from "../../Components/Card/Card";
 import Article from "../../Components/Article/Article";
-import {Accordion, Card, Button, Spinner, ButtonGroup} from "react-bootstrap";
+import {Button, Spinner, Modal} from "react-bootstrap";
 
+import randomPic from "../../assets/randomPics/randomPics";
 import styles from './Article.module.css'
 
+const pic = randomPic()
+
 class Articles extends Component {
+    state = {
+        showModal: false,
+        currentCard: null
+    }
+
     componentDidMount() {
-        this.props.fetch();
+        this.props.fetchCards();
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps) || this.state.showModal !== nextState.showModal
     }
 
     editHandler = (fields, id) => {
@@ -21,58 +34,69 @@ class Articles extends Component {
         })
     }
 
-    deleteHandler = (id) => {
-        this.props.del(id)
+    deleteHandler = (id, articleID) => {
+        this.props.del(id, articleID)
+    }
+
+    openHander = (id, articleID) => {
+        console.log("open")
+        this.setState({showModal: true, currentCard: id})
+        this.props.fetchArticle(articleID)
     }
 
     render() {
-        const articles = Object.keys(this.props.articles).map((key) => {
+        if (!this.props.cards) return null
+        const cards = Object.keys(this.props.cards).map((key) => {
             return (
-                this.props.articles[key]
+                this.props.cards[key]
             )
         })
-        const IDs = Object.keys(this.props.articles);
+        const IDs = Object.keys(this.props.cards);
+
+        console.log(cards)
 
         return (
             <div>
-                <Accordion>
+                <div className={styles.CardsContainer}>
                     {
                         !this.props.loading ?
-                            articles.map((article, index) => {
+                            cards.map((card, index) => {
                                 return (
-                                    <Card key={index}>
-                                        <Card.Header>
-                                            <div className={styles.ArticleHeader}>
-                                                <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                                                    {article.header.text}
-                                                </Accordion.Toggle>
-                                                <ButtonGroup>
-                                                    <Button onClick={(event) => {
-                                                        event.preventDefault();
-                                                        this.editHandler(article.fields, IDs[index])
-                                                    }}>edit</Button>
-
-                                                    <Button variant="danger"
-                                                            onClick={(event) => {
-                                                                event.preventDefault();
-                                                                this.deleteHandler(IDs[index])
-                                                            }}>delete</Button>
-                                                </ButtonGroup>
-                                            </div>
-                                        </Card.Header>
-                                        <Accordion.Collapse eventKey={index}>
-                                            <Card.Body>
-                                                <Article fieldset={article.fields}/>
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                    </Card>
+                                    <ArticleCard key={index}
+                                                 image={card.card.image.imgBase64 ? card.card.image.imgBase64 : pic}
+                                                 type={card.card.type}
+                                                 text={card.card.text}
+                                                 title={card.card.header}
+                                                 onClick={() => this.openHander(IDs[index], card.fieldsetID)}/>
                                 )
                             }) :
                             <Spinner animation="border" role="status">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
                     }
-                </Accordion>
+                </div>
+                <Modal show={this.state.showModal} onHide={() => this.setState({showModal: false})}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.props.aricleLoading ?
+                            <Spinner animation="border" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </Spinner> :
+                            <Article fieldset={this.props.article.fields}/>
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => this.deleteHandler(this.state.currentCard, this.props.article.id)}>
+                            delete
+                        </Button>
+                        <Button variant="primary"
+                                onClick={() => this.editHandler(this.props.article.fields, this.props.article.id)}>
+                            edit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
@@ -80,8 +104,9 @@ class Articles extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetch: () => dispatch(articlesActions.fetch()),
-        del: (id) => dispatch(articlesActions.del(id)),
+        fetchCards: () => dispatch(articlesActions.fetchCards()),
+        fetchArticle: (id) => dispatch(articlesActions.fetchArticle(id)),
+        del: (id, articleID) => dispatch(articlesActions.del(id, articleID)),
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
         setId: (id) => dispatch(constructorActions.setId(id))
     }
@@ -89,8 +114,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        articles: state.articles.articles,
-        loading: state.articles.loading
+        cards: state.articles.cards,
+        article: state.articles.article,
+        loading: state.articles.loading,
+        aricleLoading: state.articles.articleLoading
     };
 };
 

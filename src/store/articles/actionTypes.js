@@ -1,7 +1,10 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    FETCH_ARTICLES: null,
+    SET_CARDS: null,
+    SET_ARTICLE: null,
+    FETCH_ARTICLE: null,
+    FETCH_CARD: null,
     FETCH_SUCCESS: null,
     FETCH_FAIL: null,
 });

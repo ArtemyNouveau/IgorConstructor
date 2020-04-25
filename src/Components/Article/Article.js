@@ -42,11 +42,7 @@ const article = (props) => {
                             case inputType.gap:
                                 return <br key={index}/>
                             default:
-                                return (
-                                    <div key={index}>
-
-                                    </div>
-                                )
+                                return null
                         }
                     }
                 )

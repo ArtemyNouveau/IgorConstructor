@@ -27,7 +27,7 @@ class Constructor extends Component {
                     </div>
                 </Col>
                 <Col className="d-none d-lg-block d-xl-block">
-                    <ArticleCard image={this.props.card.imgBase64}
+                    <ArticleCard image={this.props.card.image.imgBase64}
                                  type={this.props.card.type}
                                  text={this.props.card.text}
                                  title={this.props.card.header}/>

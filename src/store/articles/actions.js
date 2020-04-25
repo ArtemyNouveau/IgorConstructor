@@ -1,12 +1,25 @@
 import actionTypes from './actionTypes'
 import axiosInstance from "../../axiosInstance";
 
-export const setArticles = (articles) => {
+export const setCards = (cards) => {
     return {
-        type: actionTypes.FETCH_SUCCESS,
-        articles: articles
+        type: actionTypes.SET_CARDS,
+        cards: cards
+    }
+}
+
+export const setArticle = (article, id) => {
+    return {
+        type: actionTypes.SET_ARTICLE,
+        fields: article.fields,
+        id: id
     }
 };
+
+export const deleteSuccess = () => {
+    console.log("deleted")
+    return {}
+}
 
 export const fetchFailed = (err) => {
     return {
@@ -15,24 +28,43 @@ export const fetchFailed = (err) => {
     }
 };
 
-export const fetch = () => {
+export const fetchArticle = (articleID) => {
     return (dispatch) => {
-        axiosInstance.get('/articles.json').then((response) => {
-                dispatch(setArticles(response.data))
-            }).catch((err) => {
-                console.log(err)
-                dispatch(fetchFailed(err))
-            })
-    }
-};
-
-export const del = (id) => {
-    return (dispatch) => {
-        axiosInstance.delete(`/articles/${id}.json`).then((response) => {
-            dispatch(fetch())
+        dispatch({type: actionTypes.FETCH_ARTICLE})
+        axiosInstance.get(`/articles/${articleID}.json`).then((response) => {
+            console.log(response)
+            dispatch(setArticle(response.data, articleID))
         }).catch((err) => {
             console.log(err)
             dispatch(fetchFailed(err))
         })
+    }
+}
+
+export const fetchCards = () => {
+    return (dispatch) => {
+        dispatch({type: actionTypes.FETCH_CARD})
+        axiosInstance.get('/cards.json').then((response) => {
+            dispatch(setCards(response.data))
+        }).catch((err) => {
+            console.log(err)
+            dispatch(fetchFailed(err))
+        })
+    }
+};
+
+export const del = (id, articleID) => {
+    return (dispatch) => {
+        axiosInstance.delete(`/articles/${articleID}.json`)
+            .then(response => {
+                return axiosInstance.delete(`/cards/${id}.json`)
+            })
+            .then((response) => {
+                dispatch(deleteSuccess())
+            })
+            .catch((err) => {
+                console.log(err)
+                dispatch(fetchFailed(err))
+            })
     }
 }

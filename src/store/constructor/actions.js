@@ -35,12 +35,20 @@ export const saveFail = (error) => {
     }
 }
 
-export const saveFields = (fieldset, articleHeader, articleBanner) => {
+export const saveFields = (fieldset, card) => {
     return dispatch => {
-        axiosInstance.post('/articles.json', {fields: fieldset, header: articleHeader, articleBanner: articleBanner})
+        axiosInstance.post('/articles.json', {fields: fieldset})
             .then((response) => {
-                console.log(response.data)
-                dispatch(saveSuccess(response.data))
+                console.log(response.data.name)
+                axiosInstance.post('/cards.json', {card: card, fieldsetID: response.data.name})
+                    .then((response) => {
+                        console.log(response.data.name)
+                        dispatch(saveSuccess(response.data))
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        dispatch(saveFail(err))
+                    })
             })
             .catch((err) => {
                 console.log(err)

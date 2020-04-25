@@ -37,6 +37,8 @@ class Articles extends Component {
 
     deleteHandler = (id, articleID) => {
         this.props.del(id, articleID)
+        this.setState({showModal: false, currentCard: null})
+        this.props.fetchCards();
     }
 
     openHander = (id, articleID) => {

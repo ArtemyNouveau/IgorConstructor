@@ -11,8 +11,8 @@ const initialState = {
             imgName: '',
         },
         type: 'listening',
-        id: null
     },
+    cardID: null,
     fields: [
         {
             inputType: inputType.cardHeader,
@@ -46,7 +46,7 @@ export default function (state = initialState, action) {
         case actionTypes.SET_ID:
             return updateObject(state, {id: action.id});
         case actionTypes.SET_CARD:
-            return updateObject(state, {card: {...action.card, id: action.id}});
+            return updateObject(state, {card: action.card, cardID: action.id});
         default:
             return initialState
     }

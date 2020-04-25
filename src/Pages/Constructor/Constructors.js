@@ -24,7 +24,8 @@ class Constructor extends Component {
                     <InputForm history={this.props.history}
                                fieldset={this.props.fieldset}
                                card={this.props.card}
-                               id={this.props.id}/>
+                               id={this.props.id}
+                               cardID={this.props.cardID}/>
                     <div className="d-block d-lg-none d-xl-none">
                         {preview}
                     </div>
@@ -41,7 +42,8 @@ const mapStateToProps = state => {
     return {
         card: state.construct.card,
         fieldset: state.construct.fields,
-        id: state.construct.id
+        id: state.construct.id,
+        cardID: state.construct.cardID
     }
 }
 

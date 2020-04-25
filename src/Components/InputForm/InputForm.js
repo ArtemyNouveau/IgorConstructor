@@ -211,7 +211,8 @@ const inputForm = (props) => {
     };
 
     const updateArticle = () => {
-        props.update(props.fieldset, props.fieldset[0], props.fieldset[1], props.id)
+        console.log(props.fieldset, props.id, props.card, props.cardID)
+        props.update(props.fieldset, props.id, props.card, props.cardID)
         props.history.push({
             pathname: "/articles",
         })
@@ -352,12 +353,19 @@ const inputForm = (props) => {
     )
 };
 
+const mapStateToProps = (state) => {
+    return {
+        card: state.construct.card,
+        cardID: state.construct.cardID
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
         setCard: (card) => dispatch(constructorActions.setCard(card)),
         save: (fields, card) => dispatch(constructorActions.saveFields(fields, card)),
-        update: (fields, articleHeader, articleBanner, id) => dispatch(constructorActions.updateFields(fields, articleHeader, articleBanner, id))
+        update: (fields, id, card, cardID) => dispatch(constructorActions.updateFields(fields, id, card, cardID))
     }
 };
 

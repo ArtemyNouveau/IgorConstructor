@@ -40,16 +40,10 @@ export const saveFields = (fieldset, card) => {
     return dispatch => {
         axiosInstance.post('/articles.json', {fields: fieldset})
             .then((response) => {
-                console.log(response.data.name)
-                axiosInstance.post('/cards.json', {card: card, fieldsetID: response.data.name})
-                    .then((response) => {
-                        console.log(response.data.name)
-                        dispatch(saveSuccess(response.data))
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                        dispatch(saveFail(err))
-                    })
+                return axiosInstance.post('/cards.json', {card: card, fieldsetID: response.data.name})
+            })
+            .then((response) => {
+                dispatch(saveSuccess(response.data))
             })
             .catch((err) => {
                 console.log(err)
@@ -75,12 +69,15 @@ export const updateFields = (fieldset, id, card, cardID) => {
     return dispatch => {
         axiosInstance.put(`/articles/${id}.json`, {fields: fieldset})
             .then((response) => {
-                console.log(response.data)
+                return axiosInstance.put(`/cards/${cardID}.json`, {card: card, fieldsetID: id})
+            })
+            .then((response) => {
                 dispatch(saveSuccess(response.data))
             })
             .catch((err) => {
                 console.log(err)
                 dispatch(saveFail(err))
             })
+
     }
 }

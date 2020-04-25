@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
         case actionTypes.FETCH_ARTICLE:
             return updateObject(state, {articleLoading: true})
         case actionTypes.FETCH_CARD:
-            return updateObject(state, {articleLoading: true})
+            return updateObject(state, {loading: true})
         case actionTypes.SET_ARTICLE:
             return updateObject(state, {
                 article: {

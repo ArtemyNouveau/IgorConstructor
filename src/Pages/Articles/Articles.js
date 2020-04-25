@@ -28,6 +28,7 @@ class Articles extends Component {
 
     editHandler = (fields, id) => {
         this.props.setFields(fields);
+        this.props.setCard(this.props.cards[this.state.currentCard].card, this.state.currentCard)
         this.props.setId(id);
         this.props.history.push({
             pathname: "/",
@@ -108,6 +109,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchArticle: (id) => dispatch(articlesActions.fetchArticle(id)),
         del: (id, articleID) => dispatch(articlesActions.del(id, articleID)),
         setFields: (fields) => dispatch(constructorActions.setFields(fields)),
+        setCard: (card, cardId) => dispatch(constructorActions.setCard(card, cardId)),
         setId: (id) => dispatch(constructorActions.setId(id))
     }
 }

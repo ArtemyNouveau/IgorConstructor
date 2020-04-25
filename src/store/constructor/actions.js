@@ -15,10 +15,11 @@ export const setFields = (fieldset) => {
     }
 }
 
-export const setCard = (card) => {
+export const setCard = (card, cardID) => {
     return {
         type: actionTypes.SET_CARD,
-        card: card
+        card: card,
+        id: cardID
     }
 }
 
@@ -70,9 +71,9 @@ export const setInit = () => {
     }
 }
 
-export const updateFields = (fieldset, articleHeader, articleBanner, id) => {
+export const updateFields = (fieldset, id, card, cardID) => {
     return dispatch => {
-        axiosInstance.put(`/articles/${id}.json`, {fields: fieldset, header: articleHeader, articleBanner: articleBanner})
+        axiosInstance.put(`/articles/${id}.json`, {fields: fieldset})
             .then((response) => {
                 console.log(response.data)
                 dispatch(saveSuccess(response.data))

@@ -10,7 +10,8 @@ const initialState = {
             imgBase64: '',
             imgName: '',
         },
-        type: 'listening'
+        type: 'listening',
+        id: null
     },
     fields: [
         {
@@ -45,7 +46,7 @@ export default function (state = initialState, action) {
         case actionTypes.SET_ID:
             return updateObject(state, {id: action.id});
         case actionTypes.SET_CARD:
-            return updateObject(state, {card: action.card});
+            return updateObject(state, {card: {...action.card, id: action.id}});
         default:
             return initialState
     }

@@ -152,7 +152,7 @@ const inputForm = (props) => {
         ) fields.pop();
         else if (
             fields[fields.length - 1].inputType === inputType.image &&
-            fields[fields.length - 1].img === ''
+            fields[fields.length - 1].imgBase64 === ''
         ) fields.pop();
         return fields
     };
@@ -298,7 +298,7 @@ const inputForm = (props) => {
                 )
             case inputType.exerciseType:
                 return (
-                    <div key={index} className={styles.InputContainer}>
+                    <div key={index} className={[styles.InputContainer, styles.CardEnd].join(' ')}>
                         <ExerciseTypes id={index}
                                        value={props.card.type}
                                        onInputChange={onCardTypeChange}/>

@@ -1,0 +1,11 @@
+.Card {
+    margin: 0 auto;
+}
+
+.PreviewWrapper {
+    min-height: 50vh;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    box-sizing: border-box;
+}

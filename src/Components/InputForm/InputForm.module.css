@@ -20,3 +20,8 @@
     padding: 16px;
     margin-bottom: 16px
 }
+
+.CardEnd {
+    border-bottom: 1px solid #ced4da;
+    margin-bottom: -1px;
+}

@@ -1,6 +1,8 @@
 import React from "react";
 import {Form} from "react-bootstrap";
 
+import types from './types'
+
 const exerciseTypes = (props) => {
     return (
         <Form.Group controlId={props.id}>
@@ -11,10 +13,16 @@ const exerciseTypes = (props) => {
                           onChange={(event) => {
                               props.onInputChange(event)
                           }}>
-                <option>reading</option>
-                <option>listening</option>
-                <option>video</option>
-                <option>test</option>
+                {
+                    types.map((type, index) => {
+                        return (
+                            <option key={index}>{type}</option>
+                        )
+                    })
+                }
+                {/*<option>listening</option>*/}
+                {/*<option>video</option>*/}
+                {/*<option>test</option>*/}
             </Form.Control>
         </Form.Group>
     )

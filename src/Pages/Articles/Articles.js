@@ -7,10 +7,7 @@ import ArticleCard from "../../Components/Card/Card";
 import Article from "../../Components/Article/Article";
 import {Button, Spinner, Modal} from "react-bootstrap";
 
-import randomPic from "../../assets/randomPics/randomPics";
 import styles from './Article.module.css'
-
-const pic = randomPic()
 
 class Articles extends Component {
     state = {
@@ -19,7 +16,7 @@ class Articles extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchCards();
+        if (this.props.cards.length === 0) this.props.fetchCards();
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -31,7 +28,7 @@ class Articles extends Component {
         this.props.setCard(this.props.cards[this.state.currentCard].card, this.state.currentCard)
         this.props.setId(id);
         this.props.history.push({
-            pathname: "/",
+            pathname: "/constructor",
         })
     }
 
@@ -60,16 +57,17 @@ class Articles extends Component {
 
         return (
             <div>
+                <h1 className={"text-center"}>List of published cards</h1>
                 <div className={styles.CardsContainer}>
                     {
                         !this.props.loading ?
                             cards.map((card, index) => {
                                 return (
                                     <ArticleCard key={index}
-                                                 image={card.card.image.imgBase64 ? card.card.image.imgBase64 : pic}
-                                                 type={card.card.type}
+                                                 image={card.card.image.imgBase64}
                                                  text={card.card.text}
                                                  title={card.card.header}
+                                                 type={card.card.type}
                                                  onClick={() => this.openHander(IDs[index], card.fieldsetID)}/>
                                 )
                             }) :

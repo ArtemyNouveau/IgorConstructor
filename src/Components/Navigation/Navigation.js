@@ -17,7 +17,7 @@ const navigation = (props) => {
                         <NavLink className="nav-link" exact to="/articles">
                             Articles list
                         </NavLink>
-                        <NavLink onClick={props.setInit} className="nav-link" exact to="/">
+                        <NavLink onClick={props.setInit} className="nav-link" exact to="/constructor">
                                 Constructor
                         </NavLink>
                     </Nav>

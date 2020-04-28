@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
 import Constructor from "./Pages/Constructor/Constructors";
 import Articles from "./Pages/Articles/Articles";
@@ -13,7 +13,8 @@ function App() {
             <Layout>
                 <Switch>
                     <Route path="/articles" component={Articles}/>
-                    <Route path="/" component={Constructor}/>
+                    <Route path="/constructor" component={Constructor}/>
+                    <Redirect to={"/articles"}/>
                 </Switch>
             </Layout>
         </BrowserRouter>

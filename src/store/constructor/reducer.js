@@ -31,6 +31,14 @@ const initialState = {
         {
             inputType: inputType.exerciseType,
             text: ''
+        },
+        {
+            inputType: inputType.header,
+            text: 'Start typing something!'
+        },
+        {
+            inputType: inputType.text,
+            text: "Don't forget about buttons below"
         }
     ],
     loading: false,

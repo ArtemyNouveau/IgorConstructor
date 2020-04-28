@@ -9,3 +9,7 @@
     padding: 1rem;
     box-sizing: border-box;
 }
+
+.PreviewHeader {
+    color: rgba(206,212,218,0.8)
+}

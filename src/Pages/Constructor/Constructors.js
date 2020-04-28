@@ -12,12 +12,13 @@ class Constructor extends Component {
     render() {
         const preview = (
             <Fragment>
+                <h3 className={styles.PreviewHeader}>Preview card</h3>
                 <ArticleCard image={this.props.card.image.imgBase64}
                              type={this.props.card.type}
                              text={this.props.card.text}
                              className={styles.Card}
                              title={this.props.card.header}/>
-                <h2 style={{color: "rgba(206,212,218,0.8)"}}>Preview</h2>
+                <h3 className={styles.PreviewHeader}>Preview article</h3>
                 <div className={styles.PreviewWrapper}>
                     <Article fieldset={this.props.fieldset}/>
                 </div>

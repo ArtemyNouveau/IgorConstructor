@@ -28,7 +28,7 @@ const link = (props) => {
                                   onChange={(event) => {
                                       props.onInputChange(event, props.id, true)
                                   }}
-                                  placeholder="Enter url"/>
+                                  placeholder="Enter URL"/>
                 </Form.Group>
             </Col>
         </Row>
